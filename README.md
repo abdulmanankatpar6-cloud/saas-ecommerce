@@ -1,6 +1,20 @@
 # NextWeb - Premium SaaS E-Commerce Platform
 
+<div align="center">
+
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![React](https://img.shields.io/badge/React-19.2.0-61dafb.svg)
+![Vite](https://img.shields.io/badge/Vite-8.0.0-646cff.svg)
+[![CI/CD](https://github.com/abdulmanankatpar6-cloud/saas-ecommerce/actions/workflows/ci.yml/badge.svg)](https://github.com/abdulmanankatpar6-cloud/saas-ecommerce/actions)
+
 A modern, fully-functional SaaS e-commerce platform built with React, featuring a professional dashboard UI, clean agency-level UX, and production-ready components.
+
+[Live Demo](https://your-app.vercel.app) • [Documentation](./DOCUMENTATION_INDEX.md) • [Contributing](./CONTRIBUTING.md) • [Report Bug](https://github.com/abdulmanankatpar6-cloud/saas-ecommerce/issues)
+
+</div>
+
+---
 
 ## 🌐 Live Demo
 
@@ -249,6 +263,54 @@ npm run build
 ```
 
 The optimized production build will be in the `dist/` folder.
+
+## 🌍 Deployment
+
+### Quick Deploy to Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/abdulmanankatpar6-cloud/saas-ecommerce)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel --prod
+```
+
+### Other Platforms
+
+- **Netlify**: [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/abdulmanankatpar6-cloud/saas-ecommerce)
+- **GitHub Pages**: See [DEPLOYMENT_PROFESSIONAL.md](./DEPLOYMENT_PROFESSIONAL.md)
+- **AWS S3**: See [DEPLOYMENT_PROFESSIONAL.md](./DEPLOYMENT_PROFESSIONAL.md)
+
+For detailed deployment instructions, see [DEPLOYMENT_PROFESSIONAL.md](./DEPLOYMENT_PROFESSIONAL.md)
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'feat: add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+## 📚 Documentation
+
+- [Overview](./OVERVIEW.md) - Project overview and architecture
+- [Features](./FEATURES.md) - Complete feature list
+- [Deployment](./DEPLOYMENT_PROFESSIONAL.md) - Professional deployment guide
+- [Contributing](./CONTRIBUTING.md) - Contribution guidelines
+- [Changelog](./CHANGELOG.md) - Version history
+
+## 🐛 Bug Reports & Feature Requests
+
+Found a bug or have a feature request? Please open an issue:
+- [Report Bug](https://github.com/abdulmanankatpar6-cloud/saas-ecommerce/issues/new?template=bug_report.md)
+- [Request Feature](https://github.com/abdulmanankatpar6-cloud/saas-ecommerce/issues/new?template=feature_request.md)
 
 ## 📄 License
 
