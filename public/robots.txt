@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Disallow admin routes from search engines
+Disallow: /admin/
+
+Sitemap: https://yourapp.com/sitemap.xml
