@@ -4,16 +4,18 @@ import Navbar from './Navbar';
 import './AdminLayout.css';
 
 const AdminLayout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
 
   return (
     <div className="admin-layout">
       <AdminSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className={`admin-main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-        <Navbar onCartClick={() => {}} hideCart={true} />
-        <div className="admin-content-wrapper">
-          {children}
-        </div>
+        <Navbar
+          onCartClick={() => {}}
+          hideCart={true}
+          onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        />
+        <div className="admin-content-wrapper">{children}</div>
       </div>
     </div>
   );

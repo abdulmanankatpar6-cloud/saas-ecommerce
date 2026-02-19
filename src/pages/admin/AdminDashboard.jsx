@@ -2,16 +2,58 @@ import { useState } from 'react';
 import AdminLayout from '../../components/AdminLayout';
 import ReportModal from '../../components/ReportModal';
 import { TrendingUp, Package, DollarSign, Users, ShoppingCart, AlertCircle } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const [showReportModal, setShowReportModal] = useState(false);
   const stats = [
-    { icon: DollarSign, label: 'Total Revenue', value: '$125,430', change: '+18.2%', color: '#4F46E5', trend: 'up' },
-    { icon: ShoppingCart, label: 'Total Orders', value: '3,456', change: '+12.5%', color: '#22C55E', trend: 'up' },
-    { icon: Users, label: 'Total Customers', value: '2,891', change: '+8.3%', color: '#FACC15', trend: 'up' },
-    { icon: Package, label: 'Products', value: '456', change: '+5.1%', color: '#EF4444', trend: 'up' },
+    {
+      icon: DollarSign,
+      label: 'Total Revenue',
+      value: '$125,430',
+      change: '+18.2%',
+      color: '#4F46E5',
+      trend: 'up',
+    },
+    {
+      icon: ShoppingCart,
+      label: 'Total Orders',
+      value: '3,456',
+      change: '+12.5%',
+      color: '#22C55E',
+      trend: 'up',
+    },
+    {
+      icon: Users,
+      label: 'Total Customers',
+      value: '2,891',
+      change: '+8.3%',
+      color: '#FACC15',
+      trend: 'up',
+    },
+    {
+      icon: Package,
+      label: 'Products',
+      value: '456',
+      change: '+5.1%',
+      color: '#EF4444',
+      trend: 'up',
+    },
   ];
 
   const salesData = [
@@ -31,10 +73,38 @@ const AdminDashboard = () => {
   ];
 
   const recentOrders = [
-    { id: 'ORD-1234', customer: 'John Doe', product: 'Smart Watch', amount: 179.99, status: 'completed', date: '2024-02-18' },
-    { id: 'ORD-1235', customer: 'Jane Smith', product: 'Wireless Earbuds', amount: 79.99, status: 'processing', date: '2024-02-18' },
-    { id: 'ORD-1236', customer: 'Mike Johnson', product: 'Gaming Laptop', amount: 999.99, status: 'pending', date: '2024-02-17' },
-    { id: 'ORD-1237', customer: 'Sarah Williams', product: 'Keyboard', amount: 129.99, status: 'completed', date: '2024-02-17' },
+    {
+      id: 'ORD-1234',
+      customer: 'John Doe',
+      product: 'Smart Watch',
+      amount: 179.99,
+      status: 'completed',
+      date: '2024-02-18',
+    },
+    {
+      id: 'ORD-1235',
+      customer: 'Jane Smith',
+      product: 'Wireless Earbuds',
+      amount: 79.99,
+      status: 'processing',
+      date: '2024-02-18',
+    },
+    {
+      id: 'ORD-1236',
+      customer: 'Mike Johnson',
+      product: 'Gaming Laptop',
+      amount: 999.99,
+      status: 'pending',
+      date: '2024-02-17',
+    },
+    {
+      id: 'ORD-1237',
+      customer: 'Sarah Williams',
+      product: 'Keyboard',
+      amount: 129.99,
+      status: 'completed',
+      date: '2024-02-17',
+    },
   ];
 
   const topProducts = [
@@ -53,7 +123,9 @@ const AdminDashboard = () => {
             <p>Welcome back! Here's what's happening with your store today.</p>
           </div>
           <div className="admin-actions">
-            <button className="btn btn-outline" onClick={() => setShowReportModal(true)}>Download Report</button>
+            <button className="btn btn-outline" onClick={() => setShowReportModal(true)}>
+              Download Report
+            </button>
             <button className="btn btn-primary">Add Product</button>
           </div>
         </div>
@@ -62,7 +134,10 @@ const AdminDashboard = () => {
         <div className="admin-stats-grid">
           {stats.map((stat, index) => (
             <div key={index} className="admin-stat-card">
-              <div className="stat-icon" style={{ background: `${stat.color}15`, color: stat.color }}>
+              <div
+                className="stat-icon"
+                style={{ background: `${stat.color}15`, color: stat.color }}
+              >
                 <stat.icon size={24} />
               </div>
               <div className="stat-content">
@@ -130,7 +205,9 @@ const AdminDashboard = () => {
           <div className="admin-section-card">
             <div className="section-header">
               <h3>Recent Orders</h3>
-              <a href="/admin/orders" className="view-all">View All →</a>
+              <a href="/admin/orders" className="view-all">
+                View All →
+              </a>
             </div>
             <div className="orders-table">
               <table>
@@ -144,7 +221,7 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {recentOrders.map((order) => (
+                  {recentOrders.map(order => (
                     <tr key={order.id}>
                       <td className="order-id">{order.id}</td>
                       <td>{order.customer}</td>
@@ -222,7 +299,7 @@ const AdminDashboard = () => {
           salesData,
           recentOrders,
           topProducts,
-          categoryData
+          categoryData,
         }}
         reportType="dashboard"
       />

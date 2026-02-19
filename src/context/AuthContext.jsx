@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { 
-  validatePasswordStrength, 
-  validateEmail, 
+import {
+  validatePasswordStrength,
+  validateEmail,
   hashPassword,
   generateSecureToken,
   loginRateLimiter,
@@ -10,7 +10,7 @@ import {
   checkSuspiciousActivity,
   setupSessionTimeout,
   logSecurityEvent,
-  getDeviceFingerprint
+  getDeviceFingerprint,
 } from '../utils/security';
 import toast from 'react-hot-toast';
 
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     const checkSession = () => {
       const storedUser = secureStorage.getItem('user');
       const storedToken = secureStorage.getItem('authToken');
-      
+
       if (storedUser && storedToken) {
         // Validate token expiry
         if (storedToken.expiresAt > Date.now()) {
@@ -60,10 +60,13 @@ export const AuthProvider = ({ children }) => {
   // Setup session timeout
   useEffect(() => {
     if (isAuthenticated) {
-      const cleanup = setupSessionTimeout(() => {
-        logout();
-        toast.error('Session timed out due to inactivity');
-      }, 30 * 60 * 1000); // 30 minutes
+      const cleanup = setupSessionTimeout(
+        () => {
+          logout();
+          toast.error('Session timed out due to inactivity');
+        },
+        30 * 60 * 1000
+      ); // 30 minutes
 
       return cleanup;
     }
@@ -71,9 +74,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, rememberMe = false) => {
     try {
-      // Sanitize inputs
-      email = sanitizeInput(email.trim().toLowerCase());
-      
+      // Trim and lowercase email (but don't sanitize for HTML - it's not being rendered)
+      email = email.trim().toLowerCase();
+
       // Validate email
       const emailValidation = validateEmail(email);
       if (!emailValidation.isValid) {
@@ -101,15 +104,66 @@ export const AuthProvider = ({ children }) => {
       // Hash password (in production, send to backend)
       const hashedPassword = await hashPassword(password);
 
-      // Mock authentication (replace with actual API call)
-      const isAdmin = email === 'admin@admin.com' && password === 'admin123';
-      const isValidUser = password.length >= 6; // Mock validation
+      // Professional Authentication System
+      // In production, this would be an API call to your backend
 
-      if (!isValidUser && !isAdmin) {
-        toast.error('Invalid credentials');
-        logSecurityEvent('LOGIN_FAILED', { email, reason: 'Invalid credentials' });
-        return { success: false, error: 'Invalid credentials' };
+      // Define valid credentials (in production, this comes from database)
+      const validCredentials = {
+        'admin@admin.com': {
+          password: 'admin123',
+          role: 'admin',
+          name: 'Admin User',
+        },
+        'user@example.com': {
+          password: 'password123',
+          role: 'user',
+          name: 'Demo User',
+        },
+      };
+
+      // Check if email exists
+      const userAccount = validCredentials[email];
+
+      if (!userAccount) {
+        // Email not found - use generic error message for security
+        toast.error('Invalid email or password');
+        logSecurityEvent('LOGIN_FAILED', { email, reason: 'Email not found' });
+        return { success: false, error: 'Invalid email or password' };
       }
+
+      // Verify password matches
+      if (userAccount.password !== password) {
+        // Wrong password - use generic error message for security
+        toast.error('Invalid email or password');
+        logSecurityEvent('LOGIN_FAILED', { email, reason: 'Incorrect password' });
+
+        // Track failed attempts for this email
+        const failedAttempts = secureStorage.getItem(`failed_attempts_${email}`) || 0;
+        secureStorage.setItem(`failed_attempts_${email}`, failedAttempts + 1);
+
+        // Lock account after 5 failed attempts
+        if (failedAttempts + 1 >= 5) {
+          const lockUntil = Date.now() + 15 * 60 * 1000; // Lock for 15 minutes
+          secureStorage.setItem(`account_locked_${email}`, lockUntil);
+          toast.error('Account locked due to multiple failed attempts. Try again in 15 minutes.');
+          logSecurityEvent('ACCOUNT_LOCKED', { email, attempts: failedAttempts + 1 });
+        }
+
+        return { success: false, error: 'Invalid email or password' };
+      }
+
+      // Check if account is locked
+      const lockUntil = secureStorage.getItem(`account_locked_${email}`);
+      if (lockUntil && Date.now() < lockUntil) {
+        const remainingMinutes = Math.ceil((lockUntil - Date.now()) / 1000 / 60);
+        toast.error(`Account is locked. Try again in ${remainingMinutes} minutes.`);
+        logSecurityEvent('LOGIN_BLOCKED', { email, reason: 'Account locked' });
+        return { success: false, error: 'Account locked' };
+      }
+
+      // Authentication successful - clear failed attempts
+      secureStorage.removeItem(`failed_attempts_${email}`);
+      secureStorage.removeItem(`account_locked_${email}`);
 
       // Generate secure session token
       const token = generateSecureToken(64);
@@ -117,16 +171,16 @@ export const AuthProvider = ({ children }) => {
 
       const userData = {
         email,
-        name: isAdmin ? 'Admin User' : email.split('@')[0],
-        role: isAdmin ? 'admin' : 'user',
-        avatar: `https://ui-avatars.com/api/?name=${email.split('@')[0]}&background=4F46E5&color=fff`,
+        name: userAccount.name,
+        role: userAccount.role,
+        avatar: `https://ui-avatars.com/api/?name=${userAccount.name.replace(' ', '+')}&background=4F46E5&color=fff`,
         loginTime: Date.now(),
-        deviceFingerprint: getDeviceFingerprint()
+        deviceFingerprint: getDeviceFingerprint(),
       };
 
       // Check if 2FA is enabled (mock check)
       const has2FA = secureStorage.getItem(`2fa_${email}`) || false;
-      
+
       if (has2FA) {
         // Store pending user data for 2FA verification
         setPendingUser({ userData, token, expiresAt });
@@ -137,7 +191,7 @@ export const AuthProvider = ({ children }) => {
 
       // Complete login
       completeLogin(userData, token, expiresAt);
-      
+
       // Reset rate limiter on successful login
       loginRateLimiter.reset(email);
 
@@ -149,13 +203,12 @@ export const AuthProvider = ({ children }) => {
       loginHistory.push({
         email,
         timestamp: Date.now(),
-        deviceFingerprint: getDeviceFingerprint()
+        deviceFingerprint: getDeviceFingerprint(),
       });
       secureStorage.setItem('loginHistory', loginHistory.slice(-50)); // Keep last 50
 
       toast.success(`Welcome back, ${userData.name}!`);
       return { success: true, user: userData };
-
     } catch (error) {
       console.error('Login error:', error);
       toast.error('An error occurred during login');
@@ -164,9 +217,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const verify2FA = (code) => {
+  const verify2FA = code => {
     const storedCode = secureStorage.getItem(`2fa_code_${pendingUser.userData.email}`);
-    
+
     if (code === storedCode) {
       completeLogin(pendingUser.userData, pendingUser.token, pendingUser.expiresAt);
       setTwoFactorRequired(false);
@@ -193,9 +246,9 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, name) => {
     try {
-      // Sanitize inputs
-      email = sanitizeInput(email.trim().toLowerCase());
-      name = sanitizeInput(name.trim());
+      // Trim inputs (don't sanitize for HTML)
+      email = email.trim().toLowerCase();
+      name = name.trim();
 
       // Validate email
       const emailValidation = validateEmail(email);
@@ -208,10 +261,10 @@ export const AuthProvider = ({ children }) => {
       const passwordValidation = validatePasswordStrength(password);
       if (!passwordValidation.isValid) {
         toast.error('Password does not meet security requirements');
-        return { 
-          success: false, 
-          error: 'Weak password', 
-          feedback: passwordValidation.feedback 
+        return {
+          success: false,
+          error: 'Weak password',
+          feedback: passwordValidation.feedback,
         };
       }
 
@@ -232,16 +285,15 @@ export const AuthProvider = ({ children }) => {
         password: hashedPassword,
         role: 'user',
         createdAt: Date.now(),
-        verified: false
+        verified: false,
       };
 
       secureStorage.setItem(`user_${email}`, userData);
-      
+
       logSecurityEvent('REGISTRATION_SUCCESS', { email });
       toast.success('Registration successful! Please login.');
-      
-      return { success: true };
 
+      return { success: true };
     } catch (error) {
       console.error('Registration error:', error);
       toast.error('An error occurred during registration');
@@ -252,16 +304,16 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     logSecurityEvent('LOGOUT', { email: user?.email });
-    
+
     setUser(null);
     setSessionToken(null);
     setIsAuthenticated(false);
     setTwoFactorRequired(false);
     setPendingUser(null);
-    
+
     secureStorage.removeItem('user');
     secureStorage.removeItem('authToken');
-    
+
     toast.success('Logged out successfully');
   };
 
@@ -274,17 +326,17 @@ export const AuthProvider = ({ children }) => {
       // Validate new password
       const validation = validatePasswordStrength(newPassword);
       if (!validation.isValid) {
-        return { 
-          success: false, 
+        return {
+          success: false,
           error: 'New password does not meet security requirements',
-          feedback: validation.feedback 
+          feedback: validation.feedback,
         };
       }
 
       // Verify current password (mock)
       const currentHash = await hashPassword(currentPassword);
       const storedUser = secureStorage.getItem(`user_${user.email}`);
-      
+
       if (storedUser && storedUser.password !== currentHash) {
         toast.error('Current password is incorrect');
         return { success: false, error: 'Current password is incorrect' };
@@ -297,7 +349,7 @@ export const AuthProvider = ({ children }) => {
 
       logSecurityEvent('PASSWORD_CHANGED', { email: user.email });
       toast.success('Password changed successfully');
-      
+
       return { success: true };
     } catch (error) {
       console.error('Password change error:', error);
@@ -332,7 +384,7 @@ export const AuthProvider = ({ children }) => {
     verify2FA,
     changePassword,
     enable2FA,
-    disable2FA
+    disable2FA,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

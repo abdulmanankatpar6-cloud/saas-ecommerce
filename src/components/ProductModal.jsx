@@ -26,7 +26,7 @@ const ProductModal = ({ product, onClose }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="product-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="product-modal" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>
           <X size={24} />
         </button>
@@ -39,7 +39,7 @@ const ProductModal = ({ product, onClose }) => {
           <div className="modal-details">
             <span className="modal-category">{product.category}</span>
             <h2 className="modal-title">{product.name}</h2>
-            
+
             <div className="modal-rating">
               {[...Array(5)].map((_, i) => (
                 <Star
@@ -68,14 +68,14 @@ const ProductModal = ({ product, onClose }) => {
             <div className="quantity-selector">
               <span>Quantity:</span>
               <div className="quantity-controls">
-                <button 
+                <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   disabled={quantity <= 1}
                 >
                   <Minus size={16} />
                 </button>
                 <span className="quantity-value">{quantity}</span>
-                <button 
+                <button
                   onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                   disabled={quantity >= product.stock}
                 >

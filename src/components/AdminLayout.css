@@ -8,10 +8,11 @@
   flex: 1;
   transition: margin-left 0.3s ease;
   margin-left: 280px;
+  min-height: 100vh;
 }
 
 .admin-main-content.sidebar-closed {
-  margin-left: 0;
+  margin-left: 80px;
 }
 
 .admin-content-wrapper {
@@ -21,8 +22,10 @@
 }
 
 @media (max-width: 1024px) {
-  .admin-main-content {
+  .admin-main-content,
+  .admin-main-content.sidebar-closed {
     margin-left: 0;
+    width: 100%;
   }
 }
 

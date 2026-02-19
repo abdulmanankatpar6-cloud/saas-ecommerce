@@ -28,7 +28,9 @@ const Products = () => {
   const categories = ['All', ...new Set(allProducts.map(p => p.category))];
 
   const filteredProducts = allProducts
-    .filter(p => selectedCategory === 'all' || p.category.toLowerCase() === selectedCategory.toLowerCase())
+    .filter(
+      p => selectedCategory === 'all' || p.category.toLowerCase() === selectedCategory.toLowerCase()
+    )
     .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
     .filter(p => p.price >= priceRange[0] && p.price <= priceRange[1])
     .sort((a, b) => {
@@ -53,22 +55,19 @@ const Products = () => {
               type="text"
               placeholder="Search products..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
 
           <div className="toolbar-actions">
-            <button 
-              className="mobile-filter-btn"
-              onClick={() => setIsFilterDrawerOpen(true)}
-            >
+            <button className="mobile-filter-btn" onClick={() => setIsFilterDrawerOpen(true)}>
               <SlidersHorizontal size={20} />
               <span>Filters</span>
             </button>
-            <select 
+            <select
               className="sort-select"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={e => setSortBy(e.target.value)}
             >
               <option value="featured">Featured</option>
               <option value="price-low">Price: Low to High</option>
@@ -83,7 +82,7 @@ const Products = () => {
             <div className="filter-section">
               <h3>Categories</h3>
               <div className="category-filters">
-                {categories.map((cat) => (
+                {categories.map(cat => (
                   <button
                     key={cat}
                     className={`category-btn ${selectedCategory === cat.toLowerCase() ? 'active' : ''}`}
@@ -103,7 +102,7 @@ const Products = () => {
                   min="0"
                   max="1000"
                   value={priceRange[1]}
-                  onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+                  onChange={e => setPriceRange([0, parseInt(e.target.value)])}
                   className="range-slider"
                 />
                 <div className="price-labels">
@@ -116,7 +115,7 @@ const Products = () => {
             <div className="filter-section">
               <h3>Rating</h3>
               <div className="rating-filters">
-                {[4, 3, 2, 1].map((rating) => (
+                {[4, 3, 2, 1].map(rating => (
                   <label key={rating} className="rating-filter">
                     <input type="checkbox" />
                     <span>{rating}+ Stars</span>
@@ -127,11 +126,9 @@ const Products = () => {
           </aside>
 
           <div className="products-main">
-            <div className="products-count">
-              Showing {filteredProducts.length} products
-            </div>
+            <div className="products-count">Showing {filteredProducts.length} products</div>
             <div className="products-grid">
-              {filteredProducts.map((product) => (
+              {filteredProducts.map(product => (
                 <ProductCard
                   key={product.id}
                   product={product}
@@ -144,10 +141,7 @@ const Products = () => {
       </div>
 
       {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
+        <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
       )}
 
       <MobileFilterDrawer

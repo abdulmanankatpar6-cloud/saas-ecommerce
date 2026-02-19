@@ -13,71 +13,71 @@ export const useNotifications = () => {
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState(() => {
     const saved = localStorage.getItem('notifications');
-    return saved ? JSON.parse(saved) : [
-      {
-        id: 1,
-        type: 'order',
-        title: 'Order Shipped',
-        message: 'Your order #ORD-1234 has been shipped',
-        time: '2 hours ago',
-        read: false,
-        icon: '📦'
-      },
-      {
-        id: 2,
-        type: 'payment',
-        title: 'Payment Successful',
-        message: 'Payment of $179.99 received',
-        time: '5 hours ago',
-        read: false,
-        icon: '💳'
-      },
-      {
-        id: 3,
-        type: 'discount',
-        title: 'Special Discount',
-        message: '20% off on all electronics',
-        time: '1 day ago',
-        read: false,
-        icon: '🎉'
-      },
-      {
-        id: 4,
-        type: 'stock',
-        title: 'Back in Stock',
-        message: 'Wireless Earbuds Pro is now available',
-        time: '2 days ago',
-        read: true,
-        icon: '✨'
-      }
-    ];
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            id: 1,
+            type: 'order',
+            title: 'Order Shipped',
+            message: 'Your order #ORD-1234 has been shipped',
+            time: '2 hours ago',
+            read: false,
+            icon: '📦',
+          },
+          {
+            id: 2,
+            type: 'payment',
+            title: 'Payment Successful',
+            message: 'Payment of $179.99 received',
+            time: '5 hours ago',
+            read: false,
+            icon: '💳',
+          },
+          {
+            id: 3,
+            type: 'discount',
+            title: 'Special Discount',
+            message: '20% off on all electronics',
+            time: '1 day ago',
+            read: false,
+            icon: '🎉',
+          },
+          {
+            id: 4,
+            type: 'stock',
+            title: 'Back in Stock',
+            message: 'Wireless Earbuds Pro is now available',
+            time: '2 days ago',
+            read: true,
+            icon: '✨',
+          },
+        ];
   });
 
   useEffect(() => {
     localStorage.setItem('notifications', JSON.stringify(notifications));
   }, [notifications]);
 
-  const addNotification = (notification) => {
+  const addNotification = notification => {
     const newNotification = {
       id: Date.now(),
       ...notification,
       time: 'Just now',
-      read: false
+      read: false,
     };
     setNotifications([newNotification, ...notifications]);
   };
 
-  const markAsRead = (id) => {
-    setNotifications(notifications.map(n =>
-      n.id === id ? { ...n, read: true } : n
-    ));
+  const markAsRead = id => {
+    setNotifications(notifications.map(n => (n.id === id ? { ...n, read: true } : n)));
   };
 
   const markAllAsRead = () => {
     setNotifications(notifications.map(n => ({ ...n, read: true })));
   };
 
-  const deleteNotification = (id) => {
+  const deleteNotification = id => {
     setNotifications(notifications.filter(n => n.id !== id));
   };
 
@@ -96,7 +96,7 @@ export const NotificationProvider = ({ children }) => {
         markAllAsRead,
         deleteNotification,
         clearAll,
-        unreadCount
+        unreadCount,
       }}
     >
       {children}

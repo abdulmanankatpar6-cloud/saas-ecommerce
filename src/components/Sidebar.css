@@ -3,6 +3,7 @@
   left: 0;
   top: 0;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile browsers */
   background: var(--white);
   box-shadow: var(--shadow-lg);
   border-right: 1px solid var(--gray-100);
@@ -10,7 +11,8 @@
   flex-direction: column;
   transition: all var(--transition-slow);
   z-index: 1000;
-  width: 280px;
+  width: min(280px, 100vw); /* Responsive width */
+  max-width: 280px;
 }
 
 .sidebar.closed {
@@ -35,7 +37,7 @@
 .logo-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--primary), #7C3AED);
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
@@ -79,7 +81,7 @@
 .user-profile-card {
   margin: var(--space-6);
   padding: var(--space-4);
-  background: linear-gradient(135deg, var(--primary), #7C3AED);
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
   border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
@@ -162,7 +164,7 @@
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, var(--primary), #7C3AED);
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
   color: white;
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
   transform: translateX(0);
@@ -208,13 +210,21 @@
   display: none;
 }
 
+/* Tablet */
 @media (max-width: 1024px) {
   .sidebar {
     transform: translateX(-100%);
+    width: 280px;
+    max-width: 280px;
   }
 
   .sidebar.open {
     transform: translateX(0);
+  }
+
+  .sidebar.closed {
+    transform: translateX(-100%);
+    width: 280px;
   }
 
   .sidebar-overlay {
@@ -222,6 +232,65 @@
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
     z-index: 999;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 85vw;
+    max-width: 320px;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .sidebar-header {
+    padding: var(--space-4);
+  }
+
+  .user-profile-card {
+    margin: var(--space-4);
+    padding: var(--space-3);
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sidebar-nav {
+    padding: var(--space-3);
+  }
+
+  .nav-item {
+    padding: var(--space-3);
+    font-size: 0.875rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1.125rem;
+  }
+
+  .user-info h4 {
+    font-size: 0.875rem;
+  }
+
+  .user-info p {
+    font-size: 0.6875rem;
   }
 }

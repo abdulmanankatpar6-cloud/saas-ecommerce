@@ -1,15 +1,15 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { 
-  LayoutDashboard, 
-  ShoppingBag, 
-  Package, 
-  User, 
-  Settings, 
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  Package,
+  User,
+  Settings,
   LogOut,
   ChevronLeft,
   ChevronRight,
-  BarChart3
+  BarChart3,
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -39,10 +39,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             <div className="logo-icon">N</div>
             {isOpen && <span className="logo-text">NextWeb</span>}
           </div>
-          <button 
-            className="toggle-btn"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+          <button className="toggle-btn" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
           </button>
         </div>
@@ -58,7 +55,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         )}
 
         <nav className="sidebar-nav">
-          {menuItems.map((item) => (
+          {menuItems.map(item => (
             <NavLink
               key={item.path}
               to={item.path}

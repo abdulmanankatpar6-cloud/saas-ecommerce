@@ -1,6 +1,16 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
-import { Search, Filter, Eye, Package, Truck, CheckCircle, XCircle, Clock, RotateCcw } from 'lucide-react';
+import {
+  Search,
+  Filter,
+  Eye,
+  Package,
+  Truck,
+  CheckCircle,
+  XCircle,
+  Clock,
+  RotateCcw,
+} from 'lucide-react';
 import { useNotifications } from '../context/NotificationContext';
 import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
@@ -14,112 +24,129 @@ const Orders = () => {
   const { addToCart } = useCart();
 
   const [orders, setOrders] = useState([
-    { 
-      id: 'ORD-001', 
-      date: '2024-02-15', 
-      customer: 'John Doe', 
-      items: 3, 
-      amount: 459.97, 
+    {
+      id: 'ORD-001',
+      date: '2024-02-15',
+      customer: 'John Doe',
+      items: 3,
+      amount: 459.97,
       status: 'delivered',
       products: [
         { name: 'Smart Watch', price: 179.99, quantity: 1 },
-        { name: 'Wireless Earbuds', price: 79.99, quantity: 2 }
+        { name: 'Wireless Earbuds', price: 79.99, quantity: 2 },
       ],
       timeline: [
         { status: 'placed', date: '2024-02-15 10:30 AM', completed: true },
         { status: 'processing', date: '2024-02-15 11:00 AM', completed: true },
         { status: 'shipped', date: '2024-02-16 09:00 AM', completed: true },
-        { status: 'delivered', date: '2024-02-18 02:30 PM', completed: true }
+        { status: 'delivered', date: '2024-02-18 02:30 PM', completed: true },
       ],
       estimatedDelivery: '2024-02-18',
-      trackingNumber: 'TRK123456789'
+      trackingNumber: 'TRK123456789',
     },
-    { 
-      id: 'ORD-002', 
-      date: '2024-02-14', 
-      customer: 'Jane Smith', 
-      items: 1, 
-      amount: 179.99, 
+    {
+      id: 'ORD-002',
+      date: '2024-02-14',
+      customer: 'Jane Smith',
+      items: 1,
+      amount: 179.99,
       status: 'shipped',
       products: [{ name: 'Smart Watch', price: 179.99, quantity: 1 }],
       timeline: [
         { status: 'placed', date: '2024-02-14 03:20 PM', completed: true },
         { status: 'processing', date: '2024-02-14 04:00 PM', completed: true },
         { status: 'shipped', date: '2024-02-15 10:00 AM', completed: true },
-        { status: 'delivered', date: 'Expected: 2024-02-19', completed: false }
+        { status: 'delivered', date: 'Expected: 2024-02-19', completed: false },
       ],
       estimatedDelivery: '2024-02-19',
-      trackingNumber: 'TRK987654321'
+      trackingNumber: 'TRK987654321',
     },
-    { 
-      id: 'ORD-003', 
-      date: '2024-02-13', 
-      customer: 'Mike Johnson', 
-      items: 2, 
-      amount: 229.98, 
+    {
+      id: 'ORD-003',
+      date: '2024-02-13',
+      customer: 'Mike Johnson',
+      items: 2,
+      amount: 229.98,
       status: 'processing',
-      products: [{ name: 'Mechanical Keyboard', price: 129.99, quantity: 1 }, { name: 'Mouse', price: 99.99, quantity: 1 }],
+      products: [
+        { name: 'Mechanical Keyboard', price: 129.99, quantity: 1 },
+        { name: 'Mouse', price: 99.99, quantity: 1 },
+      ],
       timeline: [
         { status: 'placed', date: '2024-02-13 11:45 AM', completed: true },
         { status: 'processing', date: '2024-02-13 12:00 PM', completed: true },
         { status: 'shipped', date: 'Pending', completed: false },
-        { status: 'delivered', date: 'Expected: 2024-02-20', completed: false }
+        { status: 'delivered', date: 'Expected: 2024-02-20', completed: false },
       ],
       estimatedDelivery: '2024-02-20',
-      trackingNumber: null
-    }
+      trackingNumber: null,
+    },
   ]);
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = status => {
     switch (status) {
-      case 'delivered': return <CheckCircle size={18} />;
-      case 'shipped': return <Truck size={18} />;
-      case 'processing': return <Package size={18} />;
-      case 'cancelled': return <XCircle size={18} />;
-      default: return <Clock size={18} />;
+      case 'delivered':
+        return <CheckCircle size={18} />;
+      case 'shipped':
+        return <Truck size={18} />;
+      case 'processing':
+        return <Package size={18} />;
+      case 'cancelled':
+        return <XCircle size={18} />;
+      default:
+        return <Clock size={18} />;
     }
   };
 
-  const getStatusClass = (status) => {
+  const getStatusClass = status => {
     switch (status) {
-      case 'delivered': return 'status-delivered';
-      case 'shipped': return 'status-shipped';
-      case 'processing': return 'status-processing';
-      case 'cancelled': return 'status-cancelled';
-      default: return '';
+      case 'delivered':
+        return 'status-delivered';
+      case 'shipped':
+        return 'status-shipped';
+      case 'processing':
+        return 'status-processing';
+      case 'cancelled':
+        return 'status-cancelled';
+      default:
+        return '';
     }
   };
 
-  const handleReorder = (order) => {
+  const handleReorder = order => {
     order.products.forEach(product => {
-      addToCart({ 
-        id: Math.random(), 
-        name: product.name, 
-        price: product.price,
-        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400'
-      }, product.quantity);
+      addToCart(
+        {
+          id: Math.random(),
+          name: product.name,
+          price: product.price,
+          image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
+        },
+        product.quantity
+      );
     });
-    
+
     addNotification({
       type: 'order',
       title: 'Items Added to Cart',
       message: `${order.items} items from order ${order.id} added to cart`,
-      icon: '🛒'
+      icon: '🛒',
     });
-    
+
     toast.success('Items added to cart!');
   };
 
   const filteredOrders = orders
     .filter(o => statusFilter === 'all' || o.status === statusFilter)
-    .filter(o => 
-      o.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      o.customer.toLowerCase().includes(searchQuery.toLowerCase())
+    .filter(
+      o =>
+        o.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        o.customer.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
   const OrderModal = ({ order, onClose }) => (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="order-modal-enhanced" onClick={(e) => e.stopPropagation()}>
+      <div className="order-modal-enhanced" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <div>
             <h2>Order Details</h2>
@@ -127,7 +154,7 @@ const Orders = () => {
           </div>
           <button onClick={onClose}>×</button>
         </div>
-        
+
         <div className="order-details-enhanced">
           <div className="order-info-grid">
             <div className="info-item">
@@ -162,7 +189,10 @@ const Orders = () => {
             <h3>Order Timeline</h3>
             <div className="timeline-animated">
               {order.timeline.map((step, index) => (
-                <div key={index} className={`timeline-step ${step.completed ? 'completed' : 'pending'}`}>
+                <div
+                  key={index}
+                  className={`timeline-step ${step.completed ? 'completed' : 'pending'}`}
+                >
                   <div className="timeline-dot">
                     {step.completed ? <CheckCircle size={20} /> : <Clock size={20} />}
                   </div>
@@ -197,7 +227,7 @@ const Orders = () => {
             ))}
           </div>
 
-          <button 
+          <button
             className="btn btn-primary btn-block btn-reorder"
             onClick={() => {
               handleReorder(order);
@@ -227,12 +257,12 @@ const Orders = () => {
               type="text"
               placeholder="Search orders..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
 
           <div className="status-filters">
-            {['all', 'processing', 'shipped', 'delivered', 'cancelled'].map((status) => (
+            {['all', 'processing', 'shipped', 'delivered', 'cancelled'].map(status => (
               <button
                 key={status}
                 className={`filter-btn ${statusFilter === status ? 'active' : ''}`}
@@ -245,6 +275,7 @@ const Orders = () => {
         </div>
 
         <div className="orders-table-container">
+          {/* Desktop Table View */}
           <table className="orders-table">
             <thead>
               <tr>
@@ -258,7 +289,7 @@ const Orders = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.map((order) => (
+              {filteredOrders.map(order => (
                 <tr key={order.id}>
                   <td className="order-id">{order.id}</td>
                   <td>{order.date}</td>
@@ -272,10 +303,7 @@ const Orders = () => {
                     </span>
                   </td>
                   <td>
-                    <button 
-                      className="action-btn"
-                      onClick={() => setSelectedOrder(order)}
-                    >
+                    <button className="action-btn" onClick={() => setSelectedOrder(order)}>
                       <Eye size={18} />
                       View
                     </button>
@@ -284,12 +312,50 @@ const Orders = () => {
               ))}
             </tbody>
           </table>
+
+          {/* Mobile Card View */}
+          <div className="orders-mobile-cards">
+            {filteredOrders.map(order => (
+              <div key={order.id} className="order-card-mobile">
+                <div className="order-card-header">
+                  <span className="order-id">{order.id}</span>
+                  <span className={`status-badge ${getStatusClass(order.status)}`}>
+                    {getStatusIcon(order.status)}
+                    {order.status}
+                  </span>
+                </div>
+                <div className="order-card-body">
+                  <div className="order-card-row">
+                    <span className="label">Date:</span>
+                    <span className="value">{order.date}</span>
+                  </div>
+                  <div className="order-card-row">
+                    <span className="label">Customer:</span>
+                    <span className="value">{order.customer}</span>
+                  </div>
+                  <div className="order-card-row">
+                    <span className="label">Items:</span>
+                    <span className="value">{order.items}</span>
+                  </div>
+                  <div className="order-card-row">
+                    <span className="label">Amount:</span>
+                    <span className="value order-amount">${order.amount}</span>
+                  </div>
+                </div>
+                <button
+                  className="action-btn action-btn-mobile"
+                  onClick={() => setSelectedOrder(order)}
+                >
+                  <Eye size={18} />
+                  View Details
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {selectedOrder && (
-        <OrderModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />
-      )}
+      {selectedOrder && <OrderModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />}
     </Layout>
   );
 };

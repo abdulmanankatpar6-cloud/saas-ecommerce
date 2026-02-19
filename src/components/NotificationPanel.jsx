@@ -3,9 +3,10 @@ import { X, Check, Trash2 } from 'lucide-react';
 import './NotificationPanel.css';
 
 const NotificationPanel = ({ isOpen, onClose }) => {
-  const { notifications, markAsRead, markAllAsRead, deleteNotification, clearAll, unreadCount } = useNotifications();
+  const { notifications, markAsRead, markAllAsRead, deleteNotification, clearAll, unreadCount } =
+    useNotifications();
 
-  const handleNotificationClick = (notification) => {
+  const handleNotificationClick = notification => {
     if (!notification.read) {
       markAsRead(notification.id);
     }
@@ -18,9 +19,7 @@ const NotificationPanel = ({ isOpen, onClose }) => {
         <div className="notification-header">
           <div>
             <h3>Notifications</h3>
-            {unreadCount > 0 && (
-              <span className="unread-badge">{unreadCount} new</span>
-            )}
+            {unreadCount > 0 && <span className="unread-badge">{unreadCount} new</span>}
           </div>
           <div className="notification-actions">
             {unreadCount > 0 && (
@@ -47,7 +46,7 @@ const NotificationPanel = ({ isOpen, onClose }) => {
               <span className="empty-text">You're all caught up!</span>
             </div>
           ) : (
-            notifications.map((notification) => (
+            notifications.map(notification => (
               <div
                 key={notification.id}
                 className={`notification-item ${notification.read ? 'read' : 'unread'}`}
@@ -61,7 +60,7 @@ const NotificationPanel = ({ isOpen, onClose }) => {
                 </div>
                 <button
                   className="btn-delete-notification"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation();
                     deleteNotification(notification.id);
                   }}

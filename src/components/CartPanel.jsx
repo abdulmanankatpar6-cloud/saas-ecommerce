@@ -36,7 +36,7 @@ const CartPanel = ({ isOpen, onClose }) => {
             <p>Add some products to get started</p>
           </div>
         ) : (
-          cart.map((item) => (
+          cart.map(item => (
             <div key={item.id} className="cart-item">
               <img src={item.image} alt={item.name} />
               <div className="cart-item-details">
@@ -52,10 +52,7 @@ const CartPanel = ({ isOpen, onClose }) => {
                   </button>
                 </div>
               </div>
-              <button 
-                className="cart-item-remove"
-                onClick={() => removeFromCart(item.id)}
-              >
+              <button className="cart-item-remove" onClick={() => removeFromCart(item.id)}>
                 <Trash2 size={18} />
               </button>
             </div>
@@ -89,8 +86,8 @@ const CartPanel = ({ isOpen, onClose }) => {
           <input type="text" placeholder="City" required />
           <input type="text" placeholder="ZIP Code" required />
         </div>
-        <button 
-          type="button" 
+        <button
+          type="button"
           className="btn btn-primary btn-block"
           onClick={() => setCheckoutStep('payment')}
         >
@@ -110,8 +107,8 @@ const CartPanel = ({ isOpen, onClose }) => {
           <input type="text" placeholder="CVV" required />
         </div>
         <input type="text" placeholder="Cardholder Name" required />
-        <button 
-          type="button" 
+        <button
+          type="button"
           className="btn btn-primary btn-block"
           onClick={() => setCheckoutStep('review')}
         >
@@ -125,9 +122,11 @@ const CartPanel = ({ isOpen, onClose }) => {
     <div className="order-review">
       <h3>Order Review</h3>
       <div className="review-items">
-        {cart.map((item) => (
+        {cart.map(item => (
           <div key={item.id} className="review-item">
-            <span>{item.name} x {item.quantity}</span>
+            <span>
+              {item.name} x {item.quantity}
+            </span>
             <span>${(item.price * item.quantity).toFixed(2)}</span>
           </div>
         ))}
@@ -136,10 +135,7 @@ const CartPanel = ({ isOpen, onClose }) => {
         <span>Total:</span>
         <span>${cartTotal.toFixed(2)}</span>
       </div>
-      <button 
-        className="btn btn-success btn-block"
-        onClick={handlePlaceOrder}
-      >
+      <button className="btn btn-success btn-block" onClick={handlePlaceOrder}>
         Place Order
       </button>
     </div>
@@ -183,10 +179,7 @@ const CartPanel = ({ isOpen, onClose }) => {
         {checkoutStep !== 'cart' && checkoutStep !== 'success' && (
           <div className="checkout-steps">
             {steps.map((step, index) => (
-              <div 
-                key={step.key}
-                className={`step ${index <= currentStepIndex ? 'active' : ''}`}
-              >
+              <div key={step.key} className={`step ${index <= currentStepIndex ? 'active' : ''}`}>
                 <div className="step-icon">
                   <step.icon size={20} />
                 </div>

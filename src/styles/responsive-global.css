@@ -1,0 +1,427 @@
+/* ========================================
+   GLOBAL RESPONSIVE OVERRIDES
+   Professional Agency-Level Responsive Design
+   Applied to ALL Pages
+   ======================================== */
+
+/* ========================================
+   FLUID TYPOGRAPHY - ALL PAGES
+   ======================================== */
+
+.products-header h1,
+.orders-header h1,
+.profile-header h1,
+.analytics-header h1,
+.settings-header h1,
+.admin-header h1 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
+}
+
+.products-header p,
+.orders-header p,
+.profile-header p,
+.analytics-header p,
+.settings-header p {
+  font-size: clamp(0.875rem, 2vw, 1.0625rem) !important;
+}
+
+/* ========================================
+   RESPONSIVE CONTAINERS
+   ======================================== */
+
+.products-page,
+.orders-page,
+.profile-page,
+.analytics-page,
+.settings-page,
+.admin-dashboard {
+  padding: clamp(1rem, 3vw, 2rem);
+  gap: clamp(1rem, 2vw, 2rem) !important;
+}
+
+/* ========================================
+   TOOLBARS & HEADERS
+   ======================================== */
+
+.products-toolbar,
+.orders-toolbar,
+.analytics-toolbar {
+  padding: clamp(1rem, 2vw, 1.5rem) !important;
+  gap: clamp(0.75rem, 1.5vw, 1rem) !important;
+  flex-wrap: wrap;
+}
+
+.search-bar {
+  min-width: min(200px, 100%);
+  padding: clamp(0.625rem, 1.5vw, 0.875rem) clamp(0.75rem, 2vw, 1rem) !important;
+}
+
+.search-bar input {
+  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem) !important;
+}
+
+/* ========================================
+   BUTTONS - TOUCH FRIENDLY
+   ======================================== */
+
+.btn,
+button,
+.category-btn,
+.filter-btn,
+.action-btn,
+.sort-select {
+  min-height: 44px !important;
+  padding: clamp(0.625rem, 1.5vw, 0.875rem) clamp(0.75rem, 2vw, 1rem) !important;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem) !important;
+}
+
+/* ========================================
+   CARDS & PANELS
+   ======================================== */
+
+.card,
+.panel,
+.stats-card,
+.product-card,
+.order-card {
+  padding: clamp(1rem, 2vw, 1.5rem) !important;
+  border-radius: clamp(0.75rem, 1.5vw, 1rem) !important;
+}
+
+/* ========================================
+   GRIDS - RESPONSIVE
+   ======================================== */
+
+.products-grid,
+.orders-grid,
+.stats-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)) !important;
+  gap: clamp(1rem, 2vw, 1.5rem) !important;
+}
+
+/* ========================================
+   TABLES - MOBILE SCROLL
+   ======================================== */
+
+.table-container,
+.orders-table-container,
+.admin-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
+}
+
+.table-container table {
+  min-width: 600px;
+}
+
+/* ========================================
+   FILTERS & SIDEBARS
+   ======================================== */
+
+.filters-sidebar {
+  padding: clamp(1rem, 2vw, 1.5rem) !important;
+}
+
+.filter-section {
+  padding: clamp(0.75rem, 1.5vw, 1rem) 0 !important;
+}
+
+.filter-section h3 {
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem) !important;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1rem) !important;
+}
+
+/* ========================================
+   MODALS & OVERLAYS
+   ======================================== */
+
+.modal-content,
+.drawer-content {
+  max-width: min(600px, 95vw) !important;
+  padding: clamp(1rem, 3vw, 2rem) !important;
+}
+
+.modal-header h2,
+.drawer-header h2 {
+  font-size: clamp(1.25rem, 3vw, 1.5rem) !important;
+}
+
+/* ========================================
+   FORMS
+   ======================================== */
+
+.form-group {
+  gap: clamp(0.375rem, 1vw, 0.5rem) !important;
+}
+
+.form-group label {
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem) !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: clamp(0.625rem, 1.5vw, 0.875rem) clamp(0.75rem, 2vw, 1rem) !important;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem) !important;
+  min-height: 44px;
+}
+
+/* ========================================
+   TABLET (768px - 1023px)
+   ======================================== */
+
+@media (max-width: 1023px) {
+  .products-container,
+  .analytics-container,
+  .settings-container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .filters-sidebar {
+    position: static !important;
+  }
+
+  .two-column-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ========================================
+   MOBILE (max-width: 767px)
+   ======================================== */
+
+@media (max-width: 767px) {
+  /* Hide desktop elements */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  /* Show mobile elements */
+  .mobile-only {
+    display: block !important;
+  }
+
+  /* Stack toolbars */
+  .products-toolbar,
+  .orders-toolbar,
+  .analytics-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  /* Full width selects */
+  .sort-select,
+  .filter-select {
+    width: 100% !important;
+    min-width: auto !important;
+  }
+
+  /* Hide sidebars */
+  .filters-sidebar:not(.mobile-drawer) {
+    display: none !important;
+  }
+
+  /* Show mobile filter button */
+  .mobile-filter-btn {
+    display: flex !important;
+  }
+
+  /* Stack form options */
+  .form-options {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* Full width buttons */
+  .btn-group {
+    flex-direction: column !important;
+  }
+
+  .btn-group .btn {
+    width: 100% !important;
+  }
+
+  /* Reduce padding */
+  .content-wrapper,
+  .admin-content-wrapper {
+    padding: clamp(0.75rem, 2vw, 1rem) !important;
+  }
+
+  /* Stack stats */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Horizontal scroll tables */
+  .table-container {
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+
+  /* Stack order items */
+  .order-item,
+  .product-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* Reduce chart heights */
+  .chart-container {
+    height: 250px !important;
+  }
+}
+
+/* ========================================
+   SMALL MOBILE (max-width: 480px)
+   ======================================== */
+
+@media (max-width: 480px) {
+  /* Further reduce padding */
+  .products-page,
+  .orders-page,
+  .profile-page {
+    padding: clamp(0.75rem, 2vw, 1rem) !important;
+  }
+
+  /* Smaller cards */
+  .card,
+  .panel {
+    padding: clamp(0.75rem, 1.5vw, 1rem) !important;
+  }
+
+  /* Compact buttons */
+  .btn {
+    padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.75rem, 1.5vw, 1rem) !important;
+  }
+
+  /* Smaller grids */
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(140px, 100%), 1fr)) !important;
+    gap: clamp(0.75rem, 1.5vw, 1rem) !important;
+  }
+
+  /* Reduce chart heights */
+  .chart-container {
+    height: 200px !important;
+  }
+}
+
+/* ========================================
+   LANDSCAPE ORIENTATION
+   ======================================== */
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .hero-section,
+  .banner-section {
+    padding: clamp(1rem, 2vw, 1.5rem) !important;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* ========================================
+   TOUCH DEVICES
+   ======================================== */
+
+@media (hover: none) and (pointer: coarse) {
+  /* Touch-friendly targets */
+  .btn,
+  button,
+  a,
+  .clickable,
+  .category-btn,
+  .filter-btn,
+  input[type='checkbox'],
+  input[type='radio'] {
+    min-height: 48px !important;
+    min-width: 48px !important;
+  }
+
+  /* Disable hover effects */
+  .btn:hover,
+  .card:hover {
+    transform: none !important;
+  }
+
+  /* Add active states */
+  .btn:active,
+  .card:active {
+    transform: scale(0.98) !important;
+  }
+
+  /* Smooth scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ========================================
+   SAFE AREA INSETS
+   ======================================== */
+
+@supports (padding: env(safe-area-inset-top)) {
+  .main-content,
+  .admin-main-content {
+    padding-top: max(1rem, env(safe-area-inset-top)) !important;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
+  }
+
+  .bottom-nav {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* ========================================
+   HIGH DPI DISPLAYS
+   ======================================== */
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card,
+  .panel,
+  .btn {
+    border-width: 0.5px !important;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .sidebar,
+  .admin-sidebar,
+  .navbar,
+  .bottom-nav,
+  .filters-sidebar,
+  .btn,
+  button {
+    display: none !important;
+  }
+
+  .main-content,
+  .admin-main-content {
+    margin-left: 0 !important;
+  }
+
+  .products-grid,
+  .orders-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}

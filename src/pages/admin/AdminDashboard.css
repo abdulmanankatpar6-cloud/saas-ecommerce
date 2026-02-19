@@ -201,17 +201,17 @@
 
 .status-completed {
   background: rgba(34, 197, 94, 0.1);
-  color: #16A34A;
+  color: #16a34a;
 }
 
 .status-processing {
   background: rgba(250, 204, 21, 0.1);
-  color: #CA8A04;
+  color: #ca8a04;
 }
 
 .status-pending {
   background: rgba(79, 70, 229, 0.1);
-  color: #4F46E5;
+  color: #4f46e5;
 }
 
 .admin-side-section {

@@ -1,16 +1,16 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { 
-  LayoutDashboard, 
-  ShoppingBag, 
-  Package, 
-  Users, 
-  Settings, 
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  Package,
+  Users,
+  Settings,
   LogOut,
   ChevronLeft,
   ChevronRight,
   BarChart3,
-  Tag
+  Tag,
 } from 'lucide-react';
 import './AdminSidebar.css';
 
@@ -41,10 +41,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
             <div className="admin-logo-icon">A</div>
             {isOpen && <span className="admin-logo-text">Admin Panel</span>}
           </div>
-          <button 
-            className="admin-toggle-btn"
-            onClick={() => setIsOpen(!isOpen)}
-          >
+          <button className="admin-toggle-btn" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
           </button>
         </div>
@@ -60,7 +57,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
         )}
 
         <nav className="admin-sidebar-nav">
-          {menuItems.map((item) => (
+          {menuItems.map(item => (
             <NavLink
               key={item.path}
               to={item.path}

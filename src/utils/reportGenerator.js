@@ -9,19 +9,19 @@ import html2canvas from 'html2canvas';
  */
 
 // Format currency
-const formatCurrency = (amount) => {
+const formatCurrency = amount => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD'
+    currency: 'USD',
   }).format(amount);
 };
 
 // Format date
-const formatDate = (date) => {
+const formatDate = date => {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   });
 };
 
@@ -38,7 +38,7 @@ export const generateCSV = (data, filename, reportType) => {
       csvData = data.stats.map(stat => ({
         Metric: stat.label,
         Value: stat.value,
-        Change: stat.change
+        Change: stat.change,
       }));
       break;
 
@@ -46,34 +46,34 @@ export const generateCSV = (data, filename, reportType) => {
       headers = ['Order ID', 'Customer', 'Email', 'Product', 'Items', 'Amount', 'Status', 'Date'];
       csvData = data.orders.map(order => ({
         'Order ID': order.id,
-        'Customer': order.customer,
-        'Email': order.email,
-        'Product': order.product,
-        'Items': order.items,
-        'Amount': formatCurrency(order.amount),
-        'Status': order.status,
-        'Date': formatDate(order.date)
+        Customer: order.customer,
+        Email: order.email,
+        Product: order.product,
+        Items: order.items,
+        Amount: formatCurrency(order.amount),
+        Status: order.status,
+        Date: formatDate(order.date),
       }));
       break;
 
     case 'products':
       headers = ['ID', 'Name', 'Category', 'Price', 'Stock', 'Status'];
       csvData = data.products.map(product => ({
-        'ID': product.id,
-        'Name': product.name,
-        'Category': product.category,
-        'Price': formatCurrency(product.price),
-        'Stock': product.stock,
-        'Status': product.status
+        ID: product.id,
+        Name: product.name,
+        Category: product.category,
+        Price: formatCurrency(product.price),
+        Stock: product.stock,
+        Status: product.status,
       }));
       break;
 
     case 'sales':
       headers = ['Month', 'Revenue', 'Orders'];
       csvData = data.salesData.map(item => ({
-        'Month': item.month,
-        'Revenue': formatCurrency(item.revenue),
-        'Orders': item.orders
+        Month: item.month,
+        Revenue: formatCurrency(item.revenue),
+        Orders: item.orders,
       }));
       break;
 
@@ -86,23 +86,29 @@ export const generateCSV = (data, filename, reportType) => {
     [`${reportType.toUpperCase()} REPORT`],
     [`Generated: ${new Date().toLocaleString()}`],
     [''],
-    headers
+    headers,
   ];
 
   // Convert to CSV
   const csv = Papa.unparse({
     fields: headers,
-    data: csvData
+    data: csvData,
   });
 
   // Add header to CSV
-  const fullCSV = reportHeader.slice(0, 2).map(row => row.join(',')).join('\n') + '\n\n' + csv;
+  const fullCSV =
+    reportHeader
+      .slice(0, 2)
+      .map(row => row.join(','))
+      .join('\n') +
+    '\n\n' +
+    csv;
 
   // Create download
   const blob = new Blob([fullCSV], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   const url = URL.createObjectURL(blob);
-  
+
   link.setAttribute('href', url);
   link.setAttribute('download', `${filename}.csv`);
   link.style.visibility = 'hidden';
@@ -118,7 +124,7 @@ export const generatePDF = async (data, filename, reportType) => {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  
+
   // Colors
   const primaryColor = [79, 70, 229]; // #4F46E5
   const textColor = [17, 24, 39]; // #111827
@@ -127,13 +133,13 @@ export const generatePDF = async (data, filename, reportType) => {
   // Header
   doc.setFillColor(...primaryColor);
   doc.rect(0, 0, pageWidth, 40, 'F');
-  
+
   // Logo/Title
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
   doc.text('Admin Panel', 14, 20);
-  
+
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
   doc.text(`${reportType.toUpperCase()} REPORT`, 14, 30);
@@ -154,11 +160,7 @@ export const generatePDF = async (data, filename, reportType) => {
       yPosition += 10;
 
       // Stats table
-      const statsData = data.stats.map(stat => [
-        stat.label,
-        stat.value,
-        stat.change
-      ]);
+      const statsData = data.stats.map(stat => [stat.label, stat.value, stat.change]);
 
       doc.autoTable({
         startY: yPosition,
@@ -168,15 +170,15 @@ export const generatePDF = async (data, filename, reportType) => {
         headStyles: {
           fillColor: primaryColor,
           fontSize: 11,
-          fontStyle: 'bold'
+          fontStyle: 'bold',
         },
         styles: {
           fontSize: 10,
-          cellPadding: 5
+          cellPadding: 5,
         },
         alternateRowStyles: {
-          fillColor: [249, 250, 251]
-        }
+          fillColor: [249, 250, 251],
+        },
       });
 
       yPosition = doc.lastAutoTable.finalY + 15;
@@ -191,7 +193,7 @@ export const generatePDF = async (data, filename, reportType) => {
         const salesTableData = data.salesData.map(item => [
           item.month,
           formatCurrency(item.revenue),
-          item.orders.toString()
+          item.orders.toString(),
         ]);
 
         doc.autoTable({
@@ -202,12 +204,12 @@ export const generatePDF = async (data, filename, reportType) => {
           headStyles: {
             fillColor: primaryColor,
             fontSize: 11,
-            fontStyle: 'bold'
+            fontStyle: 'bold',
           },
           styles: {
             fontSize: 10,
-            cellPadding: 5
-          }
+            cellPadding: 5,
+          },
         });
 
         yPosition = doc.lastAutoTable.finalY + 15;
@@ -230,7 +232,7 @@ export const generatePDF = async (data, filename, reportType) => {
           order.customer,
           order.product,
           formatCurrency(order.amount),
-          order.status
+          order.status,
         ]);
 
         doc.autoTable({
@@ -241,12 +243,12 @@ export const generatePDF = async (data, filename, reportType) => {
           headStyles: {
             fillColor: primaryColor,
             fontSize: 10,
-            fontStyle: 'bold'
+            fontStyle: 'bold',
           },
           styles: {
             fontSize: 9,
-            cellPadding: 4
-          }
+            cellPadding: 4,
+          },
         });
       }
       break;
@@ -271,7 +273,7 @@ export const generatePDF = async (data, filename, reportType) => {
         order.items.toString(),
         formatCurrency(order.amount),
         order.status,
-        formatDate(order.date)
+        formatDate(order.date),
       ]);
 
       doc.autoTable({
@@ -282,11 +284,11 @@ export const generatePDF = async (data, filename, reportType) => {
         headStyles: {
           fillColor: primaryColor,
           fontSize: 9,
-          fontStyle: 'bold'
+          fontStyle: 'bold',
         },
         styles: {
           fontSize: 8,
-          cellPadding: 3
+          cellPadding: 3,
         },
         columnStyles: {
           0: { cellWidth: 25 },
@@ -295,8 +297,8 @@ export const generatePDF = async (data, filename, reportType) => {
           3: { cellWidth: 15 },
           4: { cellWidth: 25 },
           5: { cellWidth: 25 },
-          6: { cellWidth: 25 }
-        }
+          6: { cellWidth: 25 },
+        },
       });
       break;
 
@@ -319,7 +321,7 @@ export const generatePDF = async (data, filename, reportType) => {
         product.category,
         formatCurrency(product.price),
         product.stock.toString(),
-        product.status
+        product.status,
       ]);
 
       doc.autoTable({
@@ -330,12 +332,12 @@ export const generatePDF = async (data, filename, reportType) => {
         headStyles: {
           fillColor: primaryColor,
           fontSize: 10,
-          fontStyle: 'bold'
+          fontStyle: 'bold',
         },
         styles: {
           fontSize: 9,
-          cellPadding: 4
-        }
+          cellPadding: 4,
+        },
       });
       break;
 
@@ -350,7 +352,7 @@ export const generatePDF = async (data, filename, reportType) => {
         item.month,
         formatCurrency(item.revenue),
         item.orders.toString(),
-        formatCurrency(item.revenue / item.orders)
+        formatCurrency(item.revenue / item.orders),
       ]);
 
       doc.autoTable({
@@ -361,12 +363,12 @@ export const generatePDF = async (data, filename, reportType) => {
         headStyles: {
           fillColor: primaryColor,
           fontSize: 11,
-          fontStyle: 'bold'
+          fontStyle: 'bold',
         },
         styles: {
           fontSize: 10,
-          cellPadding: 5
-        }
+          cellPadding: 5,
+        },
       });
 
       // Calculate totals
@@ -395,7 +397,9 @@ export const generatePDF = async (data, filename, reportType) => {
   doc.setFontSize(8);
   doc.setTextColor(...grayColor);
   doc.setFont('helvetica', 'italic');
-  doc.text('Generated by Admin Panel | Confidential - Internal Use Only', pageWidth / 2, footerY, { align: 'center' });
+  doc.text('Generated by Admin Panel | Confidential - Internal Use Only', pageWidth / 2, footerY, {
+    align: 'center',
+  });
 
   // Save PDF
   doc.save(`${filename}.pdf`);
@@ -404,7 +408,7 @@ export const generatePDF = async (data, filename, reportType) => {
 /**
  * Generate filename with timestamp
  */
-export const generateFilename = (reportType) => {
+export const generateFilename = reportType => {
   const date = new Date();
   const dateStr = date.toISOString().split('T')[0];
   return `${reportType}-report-${dateStr}`;

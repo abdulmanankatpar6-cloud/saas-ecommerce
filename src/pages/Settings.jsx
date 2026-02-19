@@ -19,7 +19,7 @@ const Settings = () => {
     language: 'en',
   });
 
-  const handleToggle = (key) => {
+  const handleToggle = key => {
     setSettings(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
@@ -29,7 +29,7 @@ const Settings = () => {
       {
         from: 'Sales Team',
         subject: 'Special offer just for you!',
-        message: 'We have an exclusive 30% discount on premium products. Don\'t miss out!',
+        message: "We have an exclusive 30% discount on premium products. Don't miss out!",
       },
       {
         from: 'Support Team',
@@ -217,11 +217,7 @@ const Settings = () => {
                   <p>Choose your preferred theme</p>
                 </div>
                 <label className="toggle-switch">
-                  <input
-                    type="checkbox"
-                    checked={theme === 'dark'}
-                    onChange={toggleTheme}
-                  />
+                  <input type="checkbox" checked={theme === 'dark'} onChange={toggleTheme} />
                   <span className="toggle-slider"></span>
                 </label>
               </div>
@@ -246,10 +242,10 @@ const Settings = () => {
                   <h4>Language</h4>
                   <p>Select your preferred language</p>
                 </div>
-                <select 
+                <select
                   className="setting-select"
                   value={settings.language}
-                  onChange={(e) => setSettings(prev => ({ ...prev, language: e.target.value }))}
+                  onChange={e => setSettings(prev => ({ ...prev, language: e.target.value }))}
                 >
                   <option value="en">English</option>
                   <option value="es">Spanish</option>
@@ -311,10 +307,7 @@ const Settings = () => {
                   <h4>Simulate New Message</h4>
                   <p>Test the message system by receiving a demo message</p>
                 </div>
-                <button 
-                  className="btn btn-primary btn-sm"
-                  onClick={handleSendDemoMessage}
-                >
+                <button className="btn btn-primary btn-sm" onClick={handleSendDemoMessage}>
                   <Send size={16} />
                   Send Demo Message
                 </button>
@@ -322,7 +315,10 @@ const Settings = () => {
               <div className="setting-item">
                 <div className="setting-info">
                   <h4>How it works</h4>
-                  <p>Click the button to receive a random message. The badge count will increase automatically.</p>
+                  <p>
+                    Click the button to receive a random message. The badge count will increase
+                    automatically.
+                  </p>
                 </div>
               </div>
             </div>

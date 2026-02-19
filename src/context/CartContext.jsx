@@ -36,9 +36,7 @@ export const CartProvider = ({ children }) => {
       if (existing) {
         toast.success('Updated cart quantity');
         return prev.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
       toast.success('Added to cart');
@@ -46,7 +44,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = productId => {
     setCart(prev => prev.filter(item => item.id !== productId));
     toast.success('Removed from cart');
   };
@@ -56,18 +54,14 @@ export const CartProvider = ({ children }) => {
       removeFromCart(productId);
       return;
     }
-    setCart(prev =>
-      prev.map(item =>
-        item.id === productId ? { ...item, quantity } : item
-      )
-    );
+    setCart(prev => prev.map(item => (item.id === productId ? { ...item, quantity } : item)));
   };
 
   const clearCart = () => {
     setCart([]);
   };
 
-  const addToWishlist = (product) => {
+  const addToWishlist = product => {
     setWishlist(prev => {
       const exists = prev.find(item => item.id === product.id);
       if (exists) {
@@ -79,7 +73,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromWishlist = (productId) => {
+  const removeFromWishlist = productId => {
     setWishlist(prev => prev.filter(item => item.id !== productId));
     toast.success('Removed from wishlist');
   };

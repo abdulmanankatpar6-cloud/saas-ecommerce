@@ -12,24 +12,29 @@ const ProductCard = ({ product, onViewDetails }) => {
   const reviewCount = product.reviewCount || Math.floor(Math.random() * 50) + 10;
 
   return (
-    <div 
+    <div
       className="product-card"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="product-image-wrapper">
-        <img src={product.image} alt={product.name} className="product-image" />
-        
+        <img
+          src={product.image}
+          alt={product.name}
+          className="product-image"
+          width="280"
+          height="280"
+          loading="lazy"
+        />
+
         {/* Stock Badge */}
-        {product.stock < 20 && (
-          <span className="stock-badge">Only {product.stock} left</span>
-        )}
-        
+        {product.stock < 20 && <span className="stock-badge">Only {product.stock} left</span>}
+
         {/* Hover Overlay with Actions */}
         <div className={`product-overlay ${isHovered ? 'visible' : ''}`}>
-          <button 
+          <button
             className="overlay-btn"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               addToCart(product);
             }}
@@ -37,9 +42,9 @@ const ProductCard = ({ product, onViewDetails }) => {
           >
             <ShoppingCart size={20} />
           </button>
-          <button 
+          <button
             className={`overlay-btn ${isInWishlist ? 'active' : ''}`}
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               addToWishlist(product);
             }}
@@ -47,9 +52,9 @@ const ProductCard = ({ product, onViewDetails }) => {
           >
             <Heart size={20} fill={isInWishlist ? 'currentColor' : 'none'} />
           </button>
-          <button 
+          <button
             className="overlay-btn"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               onViewDetails();
             }}
@@ -63,7 +68,7 @@ const ProductCard = ({ product, onViewDetails }) => {
       <div className="product-info">
         <span className="product-category">{product.category}</span>
         <h3 className="product-name">{product.name}</h3>
-        
+
         {/* Rating with Review Count */}
         <div className="product-rating">
           <div className="rating-stars">
@@ -87,13 +92,13 @@ const ProductCard = ({ product, onViewDetails }) => {
             )}
           </span>
         </div>
-        
+
         {/* Footer with Price and CTA */}
         <div className="product-footer">
           <span className="product-price">${product.price.toFixed(2)}</span>
-          <button 
+          <button
             className="btn-add-cart"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               addToCart(product);
             }}

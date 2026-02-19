@@ -1,12 +1,23 @@
+/* ========================================
+   LOGIN PAGE - PROFESSIONAL RESPONSIVE DESIGN
+   100% Responsive | Agency-Level Quality
+   ======================================== */
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
 .login-container {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-8);
+  padding: clamp(1rem, 4vw, 2rem);
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .login-container::before {
@@ -14,29 +25,34 @@
   position: absolute;
   top: -50%;
   right: -20%;
-  width: 800px;
-  height: 800px;
+  width: min(800px, 100vw);
+  height: min(800px, 100vw);
   background: rgba(255, 255, 255, 0.05);
   border-radius: 50%;
   filter: blur(60px);
+  pointer-events: none;
 }
 
 .login-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  max-width: 1000px;
+  max-width: min(1000px, 95vw);
   width: 100%;
   background: white;
-  border-radius: var(--radius-2xl);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
   overflow: hidden;
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
 }
 
+/* ========================================
+   ILLUSTRATION SECTION
+   ======================================== */
+
 .login-illustration {
-  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-  padding: var(--space-12);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  padding: clamp(2rem, 5vw, 3rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,71 +73,92 @@
   background: rgba(255, 255, 255, 0.08);
   border-radius: 50%;
   filter: blur(40px);
+  pointer-events: none;
 }
 
 .login-illustration img {
   width: 100%;
-  max-width: 300px;
-  margin-bottom: var(--space-8);
+  max-width: min(300px, 80%);
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
   position: relative;
   z-index: 1;
 }
 
 .login-illustration h2 {
-  font-size: 1.875rem;
-  margin-bottom: var(--space-2);
+  font-size: clamp(1.25rem, 3vw, 1.875rem);
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
   letter-spacing: -0.025em;
   color: white;
   position: relative;
   z-index: 1;
+  line-height: 1.2;
 }
 
 .login-illustration p {
   opacity: 0.95;
-  font-size: 0.9375rem;
+  font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
   letter-spacing: -0.011em;
   line-height: 1.6;
   position: relative;
   z-index: 1;
+  max-width: 90%;
 }
 
+/* ========================================
+   FORM CONTAINER
+   ======================================== */
+
 .login-form-container {
-  padding: var(--space-12);
+  padding: clamp(1.5rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .login-header {
-  margin-bottom: var(--space-8);
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
 }
 
 .login-header h1 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   color: var(--gray-900);
-  margin-bottom: var(--space-2);
+  margin-bottom: clamp(0.375rem, 1vw, 0.5rem);
   letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 .login-header p {
   color: var(--gray-500);
-  font-size: 0.9375rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
   letter-spacing: -0.011em;
+  line-height: 1.5;
 }
+
+/* ========================================
+   FORM ELEMENTS
+   ======================================== */
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: clamp(0.875rem, 2vw, 1.25rem);
+  width: 100%;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: clamp(0.375rem, 1vw, 0.5rem);
+  width: 100%;
 }
 
 .form-group label {
   font-weight: 500;
   color: var(--gray-700);
-  font-size: 0.875rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
   letter-spacing: -0.011em;
 }
 
@@ -129,12 +166,14 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  padding: clamp(0.625rem, 1.5vw, 0.875rem) clamp(0.75rem, 2vw, 1rem);
   border: 1.5px solid var(--gray-200);
-  border-radius: var(--radius-md);
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
   background: var(--gray-50);
-  transition: all var(--transition-base);
+  transition: all 0.2s ease;
+  width: 100%;
+  min-height: 44px;
 }
 
 .input-wrapper:focus-within {
@@ -146,6 +185,8 @@
 .input-wrapper svg {
   color: var(--gray-400);
   flex-shrink: 0;
+  width: clamp(16px, 3vw, 20px);
+  height: clamp(16px, 3vw, 20px);
 }
 
 .input-wrapper input {
@@ -153,9 +194,11 @@
   border: none;
   background: transparent;
   outline: none;
-  font-size: 0.9375rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
   color: var(--gray-900);
   letter-spacing: -0.011em;
+  width: 100%;
+  min-width: 0;
 }
 
 .input-wrapper input::placeholder {
@@ -167,54 +210,77 @@
   border: none;
   cursor: pointer;
   color: var(--gray-400);
-  padding: 0;
+  padding: clamp(0.25rem, 0.5vw, 0.375rem);
   display: flex;
   align-items: center;
-  transition: color var(--transition-base);
+  justify-content: center;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .toggle-password:hover {
   color: var(--primary);
 }
 
+.toggle-password svg {
+  width: clamp(18px, 3vw, 20px);
+  height: clamp(18px, 3vw, 20px);
+}
+
+/* ========================================
+   PASSWORD STRENGTH
+   ======================================== */
+
 .password-strength {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  margin-top: var(--space-2);
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  margin-top: clamp(0.375rem, 1vw, 0.5rem);
+  flex-wrap: wrap;
 }
 
 .strength-bars {
   display: flex;
-  gap: var(--space-1);
+  gap: clamp(0.25rem, 0.5vw, 0.375rem);
   flex: 1;
+  min-width: 120px;
 }
 
 .strength-bar {
   height: 4px;
   flex: 1;
   border-radius: 2px;
-  transition: background var(--transition-base);
+  transition: background 0.2s ease;
   background: var(--gray-200);
+  min-width: 20px;
 }
 
 .password-strength span {
-  font-size: 0.75rem;
+  font-size: clamp(0.6875rem, 1.2vw, 0.75rem);
   font-weight: 600;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
+
+/* ========================================
+   FORM OPTIONS
+   ======================================== */
 
 .form-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.875rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  gap: clamp(0.5rem, 1vw, 0.75rem);
+  flex-wrap: wrap;
 }
 
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: clamp(0.375rem, 1vw, 0.5rem);
   cursor: pointer;
   color: var(--gray-600);
   font-weight: 500;
@@ -223,8 +289,9 @@
 
 .checkbox-label input {
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  width: clamp(16px, 3vw, 18px);
+  height: clamp(16px, 3vw, 18px);
+  flex-shrink: 0;
 }
 
 .forgot-password {
@@ -232,25 +299,49 @@
   text-decoration: none;
   font-weight: 500;
   letter-spacing: -0.011em;
-  transition: color var(--transition-base);
+  transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .forgot-password:hover {
   color: var(--primary-hover);
 }
 
+/* ========================================
+   BUTTONS
+   ======================================== */
+
 .btn-block {
   width: 100%;
-  padding: var(--space-4);
-  font-size: 1rem;
-  margin-top: var(--space-2);
+  padding: clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  margin-top: clamp(0.375rem, 1vw, 0.5rem);
   font-weight: 600;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-primary:disabled:hover {
+  transform: none !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* ========================================
+   DIVIDER
+   ======================================== */
 
 .divider {
   position: relative;
   text-align: center;
-  margin: var(--space-6) 0;
+  margin: clamp(1rem, 2vw, 1.5rem) 0;
 }
 
 .divider::before {
@@ -266,31 +357,37 @@
 .divider span {
   position: relative;
   background: white;
-  padding: 0 var(--space-4);
+  padding: 0 clamp(0.75rem, 2vw, 1rem);
   color: var(--gray-500);
-  font-size: 0.875rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
   font-weight: 500;
   letter-spacing: -0.011em;
 }
 
+/* ========================================
+   SOCIAL LOGIN
+   ======================================== */
+
 .social-login {
   display: flex;
-  gap: var(--space-4);
+  gap: clamp(0.75rem, 2vw, 1rem);
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .social-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
+  width: clamp(44px, 8vw, 48px);
+  height: clamp(44px, 8vw, 48px);
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
   border: 1.5px solid var(--gray-200);
   background: white;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.2s ease;
   color: var(--gray-600);
+  flex-shrink: 0;
 }
 
 .social-btn:hover {
@@ -304,12 +401,29 @@
   transform: translateY(0);
 }
 
+.social-btn svg {
+  width: clamp(18px, 3vw, 20px);
+  height: clamp(18px, 3vw, 20px);
+}
+
+/* ========================================
+   TOGGLE FORM
+   ======================================== */
+
 .toggle-form {
   text-align: center;
-  margin-top: var(--space-6);
+  margin-top: clamp(1rem, 2vw, 1.5rem);
   color: var(--gray-600);
-  font-size: 0.9375rem;
+  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
   letter-spacing: -0.011em;
+}
+
+.toggle-form p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.25rem, 0.5vw, 0.375rem);
+  flex-wrap: wrap;
 }
 
 .toggle-form button {
@@ -318,35 +432,179 @@
   color: var(--primary);
   font-weight: 600;
   cursor: pointer;
-  margin-left: var(--space-2);
-  transition: color var(--transition-base);
+  transition: color 0.2s ease;
   letter-spacing: -0.011em;
+  font-size: inherit;
 }
 
 .toggle-form button:hover {
   color: var(--primary-hover);
 }
 
+/* ========================================
+   ADMIN HINT
+   ======================================== */
+
 .admin-hint {
-  margin-top: var(--space-6);
-  padding: var(--space-4);
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(0.75rem, 2vw, 1rem);
   background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.08));
   border: 1.5px solid rgba(79, 70, 229, 0.2);
-  border-radius: var(--radius-lg);
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
   text-align: center;
 }
 
 .admin-hint p {
   color: var(--primary);
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
   margin: 0;
   letter-spacing: -0.011em;
+  line-height: 1.5;
 }
 
-@media (max-width: 768px) {
+/* ========================================
+   ERROR HANDLING
+   ======================================== */
+
+.login-form.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+.input-wrapper.error {
+  border-color: var(--error);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.input-wrapper.error input {
+  color: var(--error);
+}
+
+.error-message,
+.security-notice,
+.login-attempts-warning,
+.login-success {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.375rem, 1vw, 0.5rem);
+  padding: clamp(0.625rem, 1.5vw, 0.875rem) clamp(0.75rem, 2vw, 1rem);
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  font-weight: 500;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+  animation: slideDown 0.3s ease-out;
+  line-height: 1.5;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+.security-notice {
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid var(--warning);
+  color: #92400e;
+}
+
+.login-attempts-warning {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 3px solid var(--error);
+  color: var(--error);
+}
+
+.login-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.account-locked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  padding: clamp(1.5rem, 3vw, 2rem);
+  text-align: center;
+}
+
+.account-locked svg {
+  color: var(--error);
+  width: clamp(40px, 8vw, 48px);
+  height: clamp(40px, 8vw, 48px);
+}
+
+.account-locked h3 {
+  color: var(--error);
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+  margin: 0;
+}
+
+.account-locked p {
+  color: var(--gray-600);
+  margin: 0;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+}
+
+/* ========================================
+   TABLET (768px - 1023px)
+   ======================================== */
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .login-card {
+    grid-template-columns: 1fr 1.2fr;
+  }
+
+  .login-illustration img {
+    max-width: 220px;
+  }
+}
+
+/* ========================================
+   MOBILE (max-width: 767px)
+   ======================================== */
+
+@media (max-width: 767px) {
+  .login-container {
+    align-items: flex-start;
+    padding-top: clamp(1.5rem, 4vw, 2rem);
+  }
+
   .login-card {
     grid-template-columns: 1fr;
+    max-width: 500px;
   }
 
   .login-illustration {
@@ -354,6 +612,131 @@
   }
 
   .login-form-container {
-    padding: 2rem;
+    padding: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ========================================
+   LANDSCAPE ORIENTATION
+   ======================================== */
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .login-container {
+    padding: clamp(0.75rem, 2vw, 1rem);
+    align-items: flex-start;
+  }
+
+  .login-card {
+    margin: clamp(0.75rem, 2vw, 1rem) 0;
+  }
+
+  .login-form-container {
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .login-header {
+    margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+  }
+
+  .login-form {
+    gap: clamp(0.5rem, 1vw, 0.75rem);
+  }
+
+  .divider {
+    margin: clamp(0.75rem, 1.5vw, 1rem) 0;
+  }
+
+  .toggle-form,
+  .admin-hint {
+    margin-top: clamp(0.75rem, 1.5vw, 1rem);
+  }
+}
+
+/* ========================================
+   TOUCH DEVICES
+   ======================================== */
+
+@media (hover: none) and (pointer: coarse) {
+  .input-wrapper {
+    min-height: 48px;
+  }
+
+  .btn-block {
+    min-height: 48px;
+  }
+
+  .social-btn {
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .toggle-password {
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .checkbox-label input {
+    width: 20px;
+    height: 20px;
+  }
+
+  .social-btn:hover {
+    transform: none;
+  }
+
+  .social-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ========================================
+   SAFE AREA INSETS
+   ======================================== */
+
+@supports (padding: env(safe-area-inset-top)) {
+  .login-container {
+    padding-top: max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-top));
+    padding-bottom: max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-bottom));
+    padding-left: max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-left));
+    padding-right: max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-right));
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .login-form.shake,
+  .error-message,
+  .login-success {
+    animation: none;
+  }
+
+  * {
+    transition: none !important;
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .login-container {
+    background: white;
+  }
+
+  .login-container::before,
+  .login-illustration,
+  .social-login,
+  .divider,
+  .toggle-form {
+    display: none;
   }
 }

@@ -5,7 +5,8 @@ import { useMessages } from '../context/MessageContext';
 import './MessagesPanel.css';
 
 const MessagesPanel = ({ isOpen, onClose }) => {
-  const { messages, markAsRead, toggleStar, deleteMessage, markAllAsRead, unreadCount } = useMessages();
+  const { messages, markAsRead, toggleStar, deleteMessage, markAllAsRead, unreadCount } =
+    useMessages();
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [filter, setFilter] = useState('all'); // all, unread, starred
 
@@ -17,7 +18,7 @@ const MessagesPanel = ({ isOpen, onClose }) => {
 
   const starredCount = messages.filter(m => m.starred).length;
 
-  const handleMessageClick = (message) => {
+  const handleMessageClick = message => {
     // Mark as read when opening
     if (!message.read) {
       markAsRead(message.id);
@@ -25,18 +26,18 @@ const MessagesPanel = ({ isOpen, onClose }) => {
     setSelectedMessage(message);
   };
 
-  const handleReply = (message) => {
+  const handleReply = message => {
     toast.success(`Reply to ${message.from}`);
     // In real app, open compose modal
   };
 
-  const handleDelete = (message) => {
+  const handleDelete = message => {
     deleteMessage(message.id);
     toast.success('Message deleted');
     setSelectedMessage(null);
   };
 
-  const handleStar = (message) => {
+  const handleStar = message => {
     toggleStar(message.id);
     const newStarredState = !message.starred;
     toast.success(newStarredState ? 'Message starred' : 'Star removed');
@@ -68,8 +69,8 @@ const MessagesPanel = ({ isOpen, onClose }) => {
           </div>
           <div className="messages-header-actions">
             {unreadCount > 0 && (
-              <button 
-                className="btn-mark-all-read" 
+              <button
+                className="btn-mark-all-read"
                 onClick={handleMarkAllRead}
                 title="Mark all as read"
               >
@@ -84,19 +85,19 @@ const MessagesPanel = ({ isOpen, onClose }) => {
 
         {/* Filters */}
         <div className="messages-filters">
-          <button 
+          <button
             className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
             onClick={() => setFilter('all')}
           >
             All ({messages.length})
           </button>
-          <button 
+          <button
             className={`filter-btn ${filter === 'unread' ? 'active' : ''}`}
             onClick={() => setFilter('unread')}
           >
             Unread ({unreadCount})
           </button>
-          <button 
+          <button
             className={`filter-btn ${filter === 'starred' ? 'active' : ''}`}
             onClick={() => setFilter('starred')}
           >
@@ -123,14 +124,14 @@ const MessagesPanel = ({ isOpen, onClose }) => {
                 </p>
               </div>
               <div className="message-actions">
-                <button 
+                <button
                   className="action-btn"
                   onClick={() => handleStar(selectedMessage)}
-                  title={selectedMessage.starred ? "Remove star" : "Star message"}
+                  title={selectedMessage.starred ? 'Remove star' : 'Star message'}
                 >
                   <Star size={18} fill={selectedMessage.starred ? '#FACC15' : 'none'} />
                 </button>
-                <button 
+                <button
                   className="action-btn"
                   onClick={() => handleDelete(selectedMessage)}
                   title="Delete message"
@@ -149,10 +150,7 @@ const MessagesPanel = ({ isOpen, onClose }) => {
             </div>
 
             <div className="message-reply">
-              <button 
-                className="btn btn-primary"
-                onClick={() => handleReply(selectedMessage)}
-              >
+              <button className="btn btn-primary" onClick={() => handleReply(selectedMessage)}>
                 <Reply size={18} />
                 Reply
               </button>
@@ -167,7 +165,7 @@ const MessagesPanel = ({ isOpen, onClose }) => {
                 <p>No messages</p>
               </div>
             ) : (
-              filteredMessages.map((message) => (
+              filteredMessages.map(message => (
                 <div
                   key={message.id}
                   className={`message-item ${!message.read ? 'unread' : ''}`}
@@ -185,9 +183,7 @@ const MessagesPanel = ({ isOpen, onClose }) => {
                     <h4 className="message-subject">{message.subject}</h4>
                     <p className="message-preview">{message.preview}</p>
                   </div>
-                  {message.starred && (
-                    <Star size={16} fill="#FACC15" className="message-star" />
-                  )}
+                  {message.starred && <Star size={16} fill="#FACC15" className="message-star" />}
                   {!message.read && <div className="unread-dot"></div>}
                 </div>
               ))

@@ -27,7 +27,7 @@ const BottomNav = () => {
   return (
     <nav className="bottom-nav">
       <div className="bottom-nav-container">
-        {navItems.map((item) => (
+        {navItems.map(item => (
           <NavLink
             key={item.path}
             to={item.path}

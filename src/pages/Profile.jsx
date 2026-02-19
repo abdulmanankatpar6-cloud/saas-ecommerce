@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
-import { Edit2, Mail, Phone, MapPin, Calendar, Package, TrendingUp, Clock, XCircle } from 'lucide-react';
+import {
+  Edit2,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Package,
+  TrendingUp,
+  Clock,
+  XCircle,
+} from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import toast from 'react-hot-toast';
 import './Profile.css';
@@ -30,9 +40,27 @@ const Profile = () => {
   ];
 
   const recentOrders = [
-    { id: 'ORD-001', date: '2024-02-15', product: 'Smart Watch', amount: 179.99, status: 'delivered' },
-    { id: 'ORD-002', date: '2024-02-14', product: 'Wireless Earbuds', amount: 79.99, status: 'shipped' },
-    { id: 'ORD-003', date: '2024-02-13', product: 'Gaming Laptop', amount: 999.99, status: 'processing' },
+    {
+      id: 'ORD-001',
+      date: '2024-02-15',
+      product: 'Smart Watch',
+      amount: 179.99,
+      status: 'delivered',
+    },
+    {
+      id: 'ORD-002',
+      date: '2024-02-14',
+      product: 'Wireless Earbuds',
+      amount: 79.99,
+      status: 'shipped',
+    },
+    {
+      id: 'ORD-003',
+      date: '2024-02-13',
+      product: 'Gaming Laptop',
+      amount: 999.99,
+      status: 'processing',
+    },
   ];
 
   const handleSave = () => {
@@ -53,10 +81,7 @@ const Profile = () => {
           <div className="profile-card">
             <div className="profile-card-header">
               <h2>Profile Information</h2>
-              <button 
-                className="btn-edit"
-                onClick={() => setIsEditing(!isEditing)}
-              >
+              <button className="btn-edit" onClick={() => setIsEditing(!isEditing)}>
                 <Edit2 size={18} />
                 {isEditing ? 'Cancel' : 'Edit'}
               </button>
@@ -64,9 +89,7 @@ const Profile = () => {
 
             <div className="profile-avatar-section">
               <img src={user?.avatar} alt={user?.name} className="profile-avatar" />
-              {isEditing && (
-                <button className="btn-change-avatar">Change Photo</button>
-              )}
+              {isEditing && <button className="btn-change-avatar">Change Photo</button>}
             </div>
 
             <div className="profile-form">
@@ -78,7 +101,7 @@ const Profile = () => {
                 <input
                   type="text"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -91,7 +114,7 @@ const Profile = () => {
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={e => setFormData({ ...formData, email: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -104,7 +127,7 @@ const Profile = () => {
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={e => setFormData({ ...formData, phone: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -117,7 +140,7 @@ const Profile = () => {
                 <input
                   type="text"
                   value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  onChange={e => setFormData({ ...formData, address: e.target.value })}
                   disabled={!isEditing}
                 />
               </div>
@@ -136,7 +159,10 @@ const Profile = () => {
             <div className="stats-cards">
               {stats.map((stat, index) => (
                 <div key={index} className="stat-card">
-                  <div className="stat-icon" style={{ background: `${stat.color}15`, color: stat.color }}>
+                  <div
+                    className="stat-icon"
+                    style={{ background: `${stat.color}15`, color: stat.color }}
+                  >
                     <stat.icon size={24} />
                   </div>
                   <div className="stat-info">
@@ -175,11 +201,13 @@ const Profile = () => {
         <div className="recent-orders-section">
           <div className="section-header">
             <h2>Recent Orders</h2>
-            <a href="/orders" className="view-all">View All →</a>
+            <a href="/orders" className="view-all">
+              View All →
+            </a>
           </div>
 
           <div className="orders-list">
-            {recentOrders.map((order) => (
+            {recentOrders.map(order => (
               <div key={order.id} className="order-item">
                 <div className="order-info">
                   <h4>{order.product}</h4>
@@ -191,9 +219,7 @@ const Profile = () => {
                 </div>
                 <div className="order-details">
                   <p className="order-amount">${order.amount}</p>
-                  <span className={`order-status status-${order.status}`}>
-                    {order.status}
-                  </span>
+                  <span className={`order-status status-${order.status}`}>{order.status}</span>
                 </div>
               </div>
             ))}

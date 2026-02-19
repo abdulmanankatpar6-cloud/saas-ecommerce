@@ -14,7 +14,7 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
   /**
    * Validate image file
    */
-  const validateFile = (file) => {
+  const validateFile = file => {
     // Check file type
     if (!ALLOWED_TYPES.includes(file.type)) {
       throw new Error(`Invalid file type. Allowed: JPG, PNG, WebP, GIF`);
@@ -31,56 +31,56 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
   /**
    * Compress and convert image to Base64
    */
-  const processImage = (file) => {
+  const processImage = file => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
-      reader.onload = (e) => {
+
+      reader.onload = e => {
         const img = new Image();
-        
+
         img.onload = () => {
           // Create canvas for compression
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
-          
+
           // Calculate new dimensions (max 1200px width)
           let width = img.width;
           let height = img.height;
           const maxWidth = 1200;
-          
+
           if (width > maxWidth) {
             height = (height * maxWidth) / width;
             width = maxWidth;
           }
-          
+
           canvas.width = width;
           canvas.height = height;
-          
+
           // Draw and compress
           ctx.drawImage(img, 0, 0, width, height);
-          
+
           // Convert to Base64 with compression (80% quality)
           const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
-          
+
           resolve({
             data: compressedBase64,
             name: file.name,
             size: file.size,
-            type: file.type
+            type: file.type,
           });
         };
-        
+
         img.onerror = () => {
           reject(new Error('Failed to load image'));
         };
-        
+
         img.src = e.target.result;
       };
-      
+
       reader.onerror = () => {
         reject(new Error('Failed to read file'));
       };
-      
+
       reader.readAsDataURL(file);
     });
   };
@@ -88,9 +88,9 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
   /**
    * Handle file selection
    */
-  const handleFiles = async (files) => {
+  const handleFiles = async files => {
     const fileArray = Array.from(files);
-    
+
     // Check max images limit
     if (images.length + fileArray.length > maxImages) {
       toast.error(`Maximum ${maxImages} images allowed`);
@@ -105,11 +105,10 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
         try {
           // Validate file
           validateFile(file);
-          
+
           // Process and compress image
           const processedImage = await processImage(file);
           newImages.push(processedImage);
-          
         } catch (error) {
           toast.error(`${file.name}: ${error.message}`);
         }
@@ -130,24 +129,24 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
   /**
    * Handle drag events
    */
-  const handleDragEnter = (e) => {
+  const handleDragEnter = e => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
   };
 
-  const handleDragLeave = (e) => {
+  const handleDragLeave = e => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
   };
 
-  const handleDragOver = (e) => {
+  const handleDragOver = e => {
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = e => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
@@ -161,7 +160,7 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
   /**
    * Handle file input change
    */
-  const handleFileInput = (e) => {
+  const handleFileInput = e => {
     const files = e.target.files;
     if (files && files.length > 0) {
       handleFiles(files);
@@ -173,7 +172,7 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
   /**
    * Remove image
    */
-  const handleRemove = (index) => {
+  const handleRemove = index => {
     const newImages = images.filter((_, i) => i !== index);
     onChange(newImages);
     toast.success('Image removed');
@@ -247,7 +246,7 @@ const ImageUpload = ({ images = [], onChange, maxImages = 5, maxSizeMB = 2 }) =>
                 <button
                   type="button"
                   className="remove-image-btn"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation();
                     handleRemove(index);
                   }}

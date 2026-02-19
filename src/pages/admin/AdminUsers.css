@@ -81,12 +81,12 @@
 
 .role-badge.admin {
   background: rgba(239, 68, 68, 0.1);
-  color: #EF4444;
+  color: #ef4444;
 }
 
 .role-badge.user {
   background: rgba(79, 70, 229, 0.1);
-  color: #4F46E5;
+  color: #4f46e5;
 }
 
 .status-dot {
@@ -99,11 +99,11 @@
 }
 
 .status-dot.active {
-  background: #22C55E;
+  background: #22c55e;
 }
 
 .status-dot.inactive {
-  background: #EF4444;
+  background: #ef4444;
 }
 
 .user-details {

@@ -11,16 +11,18 @@ const Login = () => {
     email: '',
     password: '',
     name: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const calculatePasswordStrength = (password) => {
+  const calculatePasswordStrength = password => {
     let strength = 0;
     if (password.length >= 8) strength++;
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
@@ -29,18 +31,20 @@ const Login = () => {
     return strength;
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     if (name === 'password' && !isLogin) {
       setPasswordStrength(calculatePasswordStrength(value));
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    
+
+    console.log('Login attempt:', { email: formData.email, isLogin });
+
     if (!formData.email || !formData.password) {
       toast.error('Please fill in all fields');
       return;
@@ -65,26 +69,43 @@ const Login = () => {
 
     try {
       if (isLogin) {
-        // Login with new security system
+        // Login with professional security system
         const result = await login(formData.email, formData.password, rememberMe);
-        
+
         if (result.success) {
+          // Clear any error states
+          setShowError(false);
+          setLoginAttempts(0);
+
           if (result.requires2FA) {
             // Handle 2FA flow (would show 2FA input modal)
             toast.success('Please enter your 2FA code');
             // For now, just redirect - 2FA UI can be added later
           } else {
-            // Check if admin login
-            const isAdminLogin = formData.email === 'admin@admin.com';
-            
-            // Redirect based on role
-            if (isAdminLogin) {
-              navigate('/admin/dashboard');
-            } else {
-              navigate('/dashboard');
-            }
+            // Success - redirect based on user role
+            const user = result.user;
+
+            // Small delay to ensure state is updated
+            setTimeout(() => {
+              if (user.role === 'admin') {
+                navigate('/admin/dashboard', { replace: true });
+              } else {
+                navigate('/dashboard', { replace: true });
+              }
+            }, 100);
           }
         } else {
+          // Login failed - show error and track attempts
+          setShowError(true);
+          setLoginAttempts(prev => prev + 1);
+
+          // Shake animation for error feedback
+          const form = document.querySelector('.login-form');
+          if (form) {
+            form.classList.add('shake');
+            setTimeout(() => form.classList.remove('shake'), 500);
+          }
+
           // Error already shown by AuthContext via toast
           console.error('Login failed:', result.error);
         }
@@ -176,7 +197,8 @@ const Login = () => {
                         key={i}
                         className="strength-bar"
                         style={{
-                          background: i < passwordStrength ? strengthColors[passwordStrength - 1] : '#E5E7EB'
+                          background:
+                            i < passwordStrength ? strengthColors[passwordStrength - 1] : '#E5E7EB',
                         }}
                       />
                     ))}
@@ -207,19 +229,21 @@ const Login = () => {
             {isLogin && (
               <div className="form-options">
                 <label className="checkbox-label">
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
+                    onChange={e => setRememberMe(e.target.checked)}
                   />
                   <span>Remember me</span>
                 </label>
-                <a href="#" className="forgot-password">Forgot Password?</a>
+                <a href="#" className="forgot-password">
+                  Forgot Password?
+                </a>
               </div>
             )}
 
             <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
-              {isLoading ? 'Please wait...' : (isLogin ? 'Login' : 'Create Account')}
+              {isLoading ? 'Please wait...' : isLogin ? 'Login' : 'Create Account'}
             </button>
           </form>
 
@@ -239,9 +263,7 @@ const Login = () => {
           <div className="toggle-form">
             <p>
               {isLogin ? "Don't have an account?" : 'Already have an account?'}
-              <button onClick={() => setIsLogin(!isLogin)}>
-                {isLogin ? 'Sign Up' : 'Login'}
-              </button>
+              <button onClick={() => setIsLogin(!isLogin)}>{isLogin ? 'Sign Up' : 'Login'}</button>
             </p>
           </div>
 

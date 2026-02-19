@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 import { X, SlidersHorizontal } from 'lucide-react';
 import './MobileFilterDrawer.css';
 
-const MobileFilterDrawer = ({ 
-  isOpen, 
-  onClose, 
-  categories, 
-  selectedCategory, 
+const MobileFilterDrawer = ({
+  isOpen,
+  onClose,
+  categories,
+  selectedCategory,
   onCategoryChange,
   priceRange,
   onPriceRangeChange,
   sortBy,
-  onSortChange
+  onSortChange,
 }) => {
   const [localPriceRange, setLocalPriceRange] = useState(priceRange);
 
@@ -34,10 +34,7 @@ const MobileFilterDrawer = ({
   return (
     <>
       {/* Overlay */}
-      <div 
-        className={`mobile-filter-overlay ${isOpen ? 'open' : ''}`}
-        onClick={onClose}
-      />
+      <div className={`mobile-filter-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} />
 
       {/* Drawer */}
       <div className={`mobile-filter-drawer ${isOpen ? 'open' : ''}`}>
@@ -61,7 +58,7 @@ const MobileFilterDrawer = ({
                 { value: 'price-low', label: 'Price: Low to High' },
                 { value: 'price-high', label: 'Price: High to Low' },
                 { value: 'newest', label: 'Newest' },
-              ].map((option) => (
+              ].map(option => (
                 <button
                   key={option.value}
                   className={`filter-option ${sortBy === option.value ? 'active' : ''}`}
@@ -77,7 +74,7 @@ const MobileFilterDrawer = ({
           <div className="filter-section">
             <h4>Category</h4>
             <div className="filter-options">
-              {categories.map((category) => (
+              {categories.map(category => (
                 <button
                   key={category}
                   className={`filter-option ${selectedCategory === category ? 'active' : ''}`}
@@ -103,7 +100,7 @@ const MobileFilterDrawer = ({
                 max="1000"
                 step="10"
                 value={localPriceRange[0]}
-                onChange={(e) => setLocalPriceRange([parseInt(e.target.value), localPriceRange[1]])}
+                onChange={e => setLocalPriceRange([parseInt(e.target.value), localPriceRange[1]])}
                 className="price-slider"
               />
               <input
@@ -112,7 +109,7 @@ const MobileFilterDrawer = ({
                 max="1000"
                 step="10"
                 value={localPriceRange[1]}
-                onChange={(e) => setLocalPriceRange([localPriceRange[0], parseInt(e.target.value)])}
+                onChange={e => setLocalPriceRange([localPriceRange[0], parseInt(e.target.value)])}
                 className="price-slider"
               />
             </div>

@@ -1,7 +1,31 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
-import { TrendingUp, DollarSign, ShoppingCart, Users, Package, ArrowUp, ArrowDown } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import {
+  TrendingUp,
+  DollarSign,
+  ShoppingCart,
+  Users,
+  Package,
+  ArrowUp,
+  ArrowDown,
+} from 'lucide-react';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  AreaChart,
+  Area,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts';
 import './Analytics.css';
 
 const Analytics = () => {
@@ -53,37 +77,37 @@ const Analytics = () => {
   ];
 
   const stats = [
-    { 
-      icon: DollarSign, 
-      label: 'Total Revenue', 
-      value: '$108,000', 
-      change: '+18.2%', 
+    {
+      icon: DollarSign,
+      label: 'Total Revenue',
+      value: '$108,000',
+      change: '+18.2%',
       trend: 'up',
-      color: '#4F46E5' 
+      color: '#4F46E5',
     },
-    { 
-      icon: ShoppingCart, 
-      label: 'Total Orders', 
-      value: '2,168', 
-      change: '+12.5%', 
+    {
+      icon: ShoppingCart,
+      label: 'Total Orders',
+      value: '2,168',
+      change: '+12.5%',
       trend: 'up',
-      color: '#22C55E' 
+      color: '#22C55E',
     },
-    { 
-      icon: Users, 
-      label: 'Total Customers', 
-      value: '1,769', 
-      change: '+8.3%', 
+    {
+      icon: Users,
+      label: 'Total Customers',
+      value: '1,769',
+      change: '+8.3%',
       trend: 'up',
-      color: '#FACC15' 
+      color: '#FACC15',
     },
-    { 
-      icon: Package, 
-      label: 'Avg Order Value', 
-      value: '$49.82', 
-      change: '+5.1%', 
+    {
+      icon: Package,
+      label: 'Avg Order Value',
+      value: '$49.82',
+      change: '+5.1%',
       trend: 'up',
-      color: '#EF4444' 
+      color: '#EF4444',
     },
   ];
 
@@ -96,19 +120,17 @@ const Analytics = () => {
             <p>Comprehensive insights into your business performance</p>
           </div>
           <div className="analytics-actions">
-            <select 
+            <select
               className="time-range-select"
               value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
+              onChange={e => setTimeRange(e.target.value)}
             >
               <option value="7days">Last 7 days</option>
               <option value="30days">Last 30 days</option>
               <option value="6months">Last 6 months</option>
               <option value="1year">Last year</option>
             </select>
-            <button className="btn btn-primary">
-              Download Report
-            </button>
+            <button className="btn btn-primary">Download Report</button>
           </div>
         </div>
 
@@ -116,7 +138,10 @@ const Analytics = () => {
         <div className="analytics-stats-grid">
           {stats.map((stat, index) => (
             <div key={index} className="analytics-stat-card">
-              <div className="stat-icon" style={{ background: `${stat.color}15`, color: stat.color }}>
+              <div
+                className="stat-icon"
+                style={{ background: `${stat.color}15`, color: stat.color }}
+              >
                 <stat.icon size={24} />
               </div>
               <div className="stat-content">
@@ -143,12 +168,12 @@ const Analytics = () => {
             <AreaChart data={monthlySalesData}>
               <defs>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#4F46E5" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#4F46E5" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorOrders" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#22C55E" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#22C55E" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#22C55E" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#22C55E" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
@@ -156,8 +181,22 @@ const Analytics = () => {
               <YAxis stroke="#6B7280" />
               <Tooltip />
               <Legend />
-              <Area type="monotone" dataKey="revenue" stroke="#4F46E5" fillOpacity={1} fill="url(#colorRevenue)" name="Revenue ($)" />
-              <Area type="monotone" dataKey="orders" stroke="#22C55E" fillOpacity={1} fill="url(#colorOrders)" name="Orders" />
+              <Area
+                type="monotone"
+                dataKey="revenue"
+                stroke="#4F46E5"
+                fillOpacity={1}
+                fill="url(#colorRevenue)"
+                name="Revenue ($)"
+              />
+              <Area
+                type="monotone"
+                dataKey="orders"
+                stroke="#22C55E"
+                fillOpacity={1}
+                fill="url(#colorOrders)"
+                name="Orders"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -201,7 +240,7 @@ const Analytics = () => {
                   outerRadius={100}
                   paddingAngle={5}
                   dataKey="value"
-                  label={(entry) => `${entry.name} ${entry.value}%`}
+                  label={entry => `${entry.name} ${entry.value}%`}
                 >
                   {categoryData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -228,8 +267,21 @@ const Analytics = () => {
               <YAxis stroke="#6B7280" />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="revenue" stroke="#4F46E5" strokeWidth={3} name="Actual Revenue" />
-              <Line type="monotone" dataKey="target" stroke="#FACC15" strokeWidth={3} strokeDasharray="5 5" name="Target" />
+              <Line
+                type="monotone"
+                dataKey="revenue"
+                stroke="#4F46E5"
+                strokeWidth={3}
+                name="Actual Revenue"
+              />
+              <Line
+                type="monotone"
+                dataKey="target"
+                stroke="#FACC15"
+                strokeWidth={3}
+                strokeDasharray="5 5"
+                name="Target"
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -265,7 +317,10 @@ const Analytics = () => {
               </div>
               <div>
                 <h4>Revenue Growth</h4>
-                <p>Your revenue has increased by 18.2% compared to last period. Keep up the great work!</p>
+                <p>
+                  Your revenue has increased by 18.2% compared to last period. Keep up the great
+                  work!
+                </p>
               </div>
             </div>
             <div className="insight-card">
@@ -274,7 +329,9 @@ const Analytics = () => {
               </div>
               <div>
                 <h4>Customer Retention</h4>
-                <p>Returning customers make up 45% of your orders. Focus on retention strategies.</p>
+                <p>
+                  Returning customers make up 45% of your orders. Focus on retention strategies.
+                </p>
               </div>
             </div>
             <div className="insight-card">
@@ -283,7 +340,9 @@ const Analytics = () => {
               </div>
               <div>
                 <h4>Top Category</h4>
-                <p>Electronics category leads with 45% of total sales. Consider expanding inventory.</p>
+                <p>
+                  Electronics category leads with 45% of total sales. Consider expanding inventory.
+                </p>
               </div>
             </div>
           </div>

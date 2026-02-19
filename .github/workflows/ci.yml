@@ -7,30 +7,46 @@ on:
     branches: [main, develop]
 
 jobs:
-  build-and-test:
+  quality-check:
+    name: Code Quality & Tests
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
-      - name: Setup Node.js
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
-      - name: Lint code
-        run: npm run lint --if-present
-      
-      - name: Build project
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build application
         run: npm run build
         env:
-          CI: true
-      
+          NODE_ENV: production
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -38,29 +54,39 @@ jobs:
           path: dist/
           retention-days: 7
 
-  deploy-preview:
-    needs: build-and-test
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Deploy to Preview
-        run: echo "Deploy to preview environment"
-
-  deploy-production:
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  security-scan:
+    name: Security Audit
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+  deploy-preview:
+    name: Deploy Preview
+    needs: [quality-check]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist/
-      
-      - name: Deploy to Production
-        run: echo "Ready for production deployment"
+
+      - name: Deploy to preview
+        run: echo "Deploy to preview environment"
+        # Add your preview deployment command here

@@ -16,38 +16,38 @@ const ReportModal = ({ isOpen, onClose, data, reportType = 'dashboard' }) => {
       name: 'CSV',
       icon: FileSpreadsheet,
       description: 'Excel-compatible spreadsheet',
-      color: '#22C55E'
+      color: '#22C55E',
     },
     {
       id: 'pdf',
       name: 'PDF',
       icon: FileText,
       description: 'Professional formatted report',
-      color: '#EF4444'
-    }
+      color: '#EF4444',
+    },
   ];
 
   const reportTypes = {
     dashboard: {
       title: 'Dashboard Summary Report',
       description: 'Complete overview with stats, sales data, and recent orders',
-      icon: TrendingUp
+      icon: TrendingUp,
     },
     orders: {
       title: 'Orders Report',
       description: 'Detailed list of all orders with customer information',
-      icon: FileText
+      icon: FileText,
     },
     products: {
       title: 'Products Report',
       description: 'Complete product catalog with pricing and inventory',
-      icon: FileSpreadsheet
+      icon: FileSpreadsheet,
     },
     sales: {
       title: 'Sales Report',
       description: 'Revenue and order trends over time',
-      icon: TrendingUp
-    }
+      icon: TrendingUp,
+    },
   };
 
   const currentReport = reportTypes[reportType] || reportTypes.dashboard;
@@ -73,14 +73,13 @@ const ReportModal = ({ isOpen, onClose, data, reportType = 'dashboard' }) => {
       // Success
       toast.success(`${selectedFormat.toUpperCase()} report downloaded successfully!`, {
         id: loadingToast,
-        duration: 3000
+        duration: 3000,
       });
 
       // Close modal after short delay
       setTimeout(() => {
         onClose();
       }, 1000);
-
     } catch (error) {
       console.error('Report generation error:', error);
       toast.error('Failed to generate report. Please try again.');
@@ -91,7 +90,7 @@ const ReportModal = ({ isOpen, onClose, data, reportType = 'dashboard' }) => {
 
   return (
     <div className="report-modal-overlay" onClick={onClose}>
-      <div className="report-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="report-modal" onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="report-modal-header">
           <div className="report-modal-title">
@@ -126,13 +125,13 @@ const ReportModal = ({ isOpen, onClose, data, reportType = 'dashboard' }) => {
               Select Format
             </label>
             <div className="format-options">
-              {formats.map((format) => (
+              {formats.map(format => (
                 <button
                   key={format.id}
                   className={`format-option ${selectedFormat === format.id ? 'active' : ''}`}
                   onClick={() => setSelectedFormat(format.id)}
                   style={{
-                    borderColor: selectedFormat === format.id ? format.color : 'transparent'
+                    borderColor: selectedFormat === format.id ? format.color : 'transparent',
                   }}
                 >
                   <div className="format-icon" style={{ color: format.color }}>
@@ -158,11 +157,14 @@ const ReportModal = ({ isOpen, onClose, data, reportType = 'dashboard' }) => {
           <div className="report-details">
             <div className="report-detail-item">
               <Calendar size={16} />
-              <span>Generated: {new Date().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}</span>
+              <span>
+                Generated:{' '}
+                {new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </span>
             </div>
             <div className="report-detail-item">
               <FileText size={16} />
@@ -212,18 +214,10 @@ const ReportModal = ({ isOpen, onClose, data, reportType = 'dashboard' }) => {
 
         {/* Footer */}
         <div className="report-modal-footer">
-          <button
-            className="btn btn-outline"
-            onClick={onClose}
-            disabled={isGenerating}
-          >
+          <button className="btn btn-outline" onClick={onClose} disabled={isGenerating}>
             Cancel
           </button>
-          <button
-            className="btn btn-primary"
-            onClick={handleGenerate}
-            disabled={isGenerating}
-          >
+          <button className="btn btn-primary" onClick={handleGenerate} disabled={isGenerating}>
             <Download size={18} />
             {isGenerating ? 'Generating...' : `Generate ${selectedFormat.toUpperCase()}`}
           </button>

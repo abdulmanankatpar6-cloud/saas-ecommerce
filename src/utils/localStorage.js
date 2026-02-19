@@ -7,7 +7,7 @@ const STORAGE_KEYS = {
   PRODUCTS: 'ecommerce_products',
   ORDERS: 'ecommerce_orders',
   SETTINGS: 'ecommerce_settings',
-  VERSION: 'ecommerce_version'
+  VERSION: 'ecommerce_version',
 };
 
 const CURRENT_VERSION = '1.0.0';
@@ -32,7 +32,7 @@ const isLocalStorageAvailable = () => {
  */
 export const getStorageUsage = () => {
   if (!isLocalStorageAvailable()) return 0;
-  
+
   let total = 0;
   for (let key in localStorage) {
     if (localStorage.hasOwnProperty(key)) {
@@ -68,11 +68,11 @@ const saveToStorage = (key, data) => {
 
   try {
     const jsonData = JSON.stringify(data);
-    
+
     // Check if data will exceed storage limit
     const dataSize = jsonData.length;
     const currentUsage = getStorageUsage();
-    
+
     if (currentUsage + dataSize > MAX_STORAGE_SIZE) {
       console.error('Storage quota exceeded');
       throw new Error('Storage quota exceeded. Please delete some products or clear old data.');
@@ -82,12 +82,12 @@ const saveToStorage = (key, data) => {
     return true;
   } catch (error) {
     console.error('Error saving to localStorage:', error);
-    
+
     // Handle quota exceeded error
     if (error.name === 'QuotaExceededError' || error.message.includes('quota')) {
       throw new Error('Storage quota exceeded. Please delete some products to free up space.');
     }
-    
+
     throw error;
   }
 };
@@ -112,9 +112,9 @@ const loadFromStorage = (key, defaultValue = null) => {
 /**
  * Remove data from localStorage
  */
-const removeFromStorage = (key) => {
+const removeFromStorage = key => {
   if (!isLocalStorageAvailable()) return;
-  
+
   try {
     localStorage.removeItem(key);
   } catch (error) {
@@ -140,25 +140,25 @@ export const clearAllStorage = () => {
  */
 export const loadProducts = () => {
   const products = loadFromStorage(STORAGE_KEYS.PRODUCTS, []);
-  
+
   // Add timestamps if missing (for backward compatibility)
   return products.map(product => ({
     ...product,
     createdAt: product.createdAt || new Date().toISOString(),
-    updatedAt: product.updatedAt || new Date().toISOString()
+    updatedAt: product.updatedAt || new Date().toISOString(),
   }));
 };
 
 /**
  * Save products to localStorage
  */
-export const saveProducts = (products) => {
+export const saveProducts = products => {
   try {
     // Add/update timestamps
     const productsWithTimestamps = products.map(product => ({
       ...product,
       updatedAt: new Date().toISOString(),
-      createdAt: product.createdAt || new Date().toISOString()
+      createdAt: product.createdAt || new Date().toISOString(),
     }));
 
     saveToStorage(STORAGE_KEYS.PRODUCTS, productsWithTimestamps);
@@ -171,15 +171,15 @@ export const saveProducts = (products) => {
 /**
  * Add a single product
  */
-export const addProduct = (product) => {
+export const addProduct = product => {
   const products = loadProducts();
   const newProduct = {
     ...product,
     id: Math.max(0, ...products.map(p => p.id)) + 1,
     createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    updatedAt: new Date().toISOString(),
   };
-  
+
   products.push(newProduct);
   saveProducts(products);
   return newProduct;
@@ -191,18 +191,18 @@ export const addProduct = (product) => {
 export const updateProduct = (id, updates) => {
   const products = loadProducts();
   const index = products.findIndex(p => p.id === id);
-  
+
   if (index === -1) {
     throw new Error('Product not found');
   }
-  
+
   products[index] = {
     ...products[index],
     ...updates,
     id, // Ensure ID doesn't change
-    updatedAt: new Date().toISOString()
+    updatedAt: new Date().toISOString(),
   };
-  
+
   saveProducts(products);
   return products[index];
 };
@@ -210,7 +210,7 @@ export const updateProduct = (id, updates) => {
 /**
  * Delete a single product
  */
-export const deleteProduct = (id) => {
+export const deleteProduct = id => {
   const products = loadProducts();
   const filtered = products.filter(p => p.id !== id);
   saveProducts(filtered);
@@ -231,7 +231,7 @@ export const loadOrders = () => {
 /**
  * Save orders to localStorage
  */
-export const saveOrders = (orders) => {
+export const saveOrders = orders => {
   saveToStorage(STORAGE_KEYS.ORDERS, orders);
 };
 
@@ -249,7 +249,7 @@ export const loadSettings = () => {
 /**
  * Save settings to localStorage
  */
-export const saveSettings = (settings) => {
+export const saveSettings = settings => {
   saveToStorage(STORAGE_KEYS.SETTINGS, settings);
 };
 
@@ -266,14 +266,14 @@ export const exportData = () => {
     exportDate: new Date().toISOString(),
     products: loadProducts(),
     orders: loadOrders(),
-    settings: loadSettings()
+    settings: loadSettings(),
   };
 };
 
 /**
  * Import data from JSON
  */
-export const importData = (data) => {
+export const importData = data => {
   try {
     if (data.products) saveProducts(data.products);
     if (data.orders) saveOrders(data.orders);
@@ -310,7 +310,7 @@ export const downloadDataBackup = () => {
  */
 export const initializeStorage = () => {
   const products = loadProducts();
-  
+
   // If no products exist, add default ones
   if (products.length === 0) {
     const defaultProducts = [
@@ -323,7 +323,7 @@ export const initializeStorage = () => {
         image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
         images: [],
         status: 'active',
-        description: 'High-quality smart watch with fitness tracking and notifications'
+        description: 'High-quality smart watch with fitness tracking and notifications',
       },
       {
         id: 2,
@@ -334,7 +334,7 @@ export const initializeStorage = () => {
         image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400',
         images: [],
         status: 'active',
-        description: 'Premium wireless earbuds with active noise cancellation'
+        description: 'Premium wireless earbuds with active noise cancellation',
       },
       {
         id: 3,
@@ -345,7 +345,7 @@ export const initializeStorage = () => {
         image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400',
         images: [],
         status: 'active',
-        description: 'Powerful gaming laptop with RTX graphics'
+        description: 'Powerful gaming laptop with RTX graphics',
       },
       {
         id: 4,
@@ -356,7 +356,7 @@ export const initializeStorage = () => {
         image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?w=400',
         images: [],
         status: 'active',
-        description: 'RGB mechanical keyboard with customizable switches'
+        description: 'RGB mechanical keyboard with customizable switches',
       },
       {
         id: 5,
@@ -367,7 +367,7 @@ export const initializeStorage = () => {
         image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400',
         images: [],
         status: 'active',
-        description: 'Ergonomic wireless mouse with precision tracking'
+        description: 'Ergonomic wireless mouse with precision tracking',
       },
       {
         id: 6,
@@ -378,10 +378,10 @@ export const initializeStorage = () => {
         image: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400',
         images: [],
         status: 'active',
-        description: 'Multi-port USB-C hub with fast data transfer'
-      }
+        description: 'Multi-port USB-C hub with fast data transfer',
+      },
     ];
-    
+
     saveProducts(defaultProducts);
   }
 };
@@ -403,5 +403,5 @@ export default {
   getStorageUsage,
   getStorageUsagePercent,
   isStorageNearCapacity,
-  initializeStorage
+  initializeStorage,
 };

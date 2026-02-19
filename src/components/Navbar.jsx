@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, ShoppingCart, Bell, Moon, Sun, Mail } from 'lucide-react';
+import { Search, ShoppingCart, Bell, Moon, Sun, Mail, Menu } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -9,7 +9,7 @@ import NotificationPanel from './NotificationPanel';
 import MessagesPanel from './MessagesPanel';
 import './Navbar.css';
 
-const Navbar = ({ onCartClick, hideCart = false }) => {
+const Navbar = ({ onCartClick, onMenuClick, hideCart = false }) => {
   const { isDark, toggleTheme } = useTheme();
   const { cartCount } = useCart();
   const { user } = useAuth();
@@ -22,13 +22,19 @@ const Navbar = ({ onCartClick, hideCart = false }) => {
   return (
     <>
       <nav className="navbar">
+        {onMenuClick && (
+          <button className="icon-btn menu-btn" onClick={onMenuClick} title="Menu">
+            <Menu size={20} />
+          </button>
+        )}
+
         <div className="navbar-search">
           <Search size={20} />
           <input
             type="text"
             placeholder="Search products, orders..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -37,8 +43,8 @@ const Navbar = ({ onCartClick, hideCart = false }) => {
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-          <button 
-            className="icon-btn" 
+          <button
+            className="icon-btn"
             title="Notifications"
             onClick={() => setShowNotifications(!showNotifications)}
           >
@@ -46,8 +52,8 @@ const Navbar = ({ onCartClick, hideCart = false }) => {
             {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
           </button>
 
-          <button 
-            className="icon-btn" 
+          <button
+            className="icon-btn"
             title="Messages"
             onClick={() => setShowMessages(!showMessages)}
           >
@@ -69,15 +75,9 @@ const Navbar = ({ onCartClick, hideCart = false }) => {
         </div>
       </nav>
 
-      <NotificationPanel 
-        isOpen={showNotifications} 
-        onClose={() => setShowNotifications(false)} 
-      />
-      
-      <MessagesPanel 
-        isOpen={showMessages} 
-        onClose={() => setShowMessages(false)} 
-      />
+      <NotificationPanel isOpen={showNotifications} onClose={() => setShowNotifications(false)} />
+
+      <MessagesPanel isOpen={showMessages} onClose={() => setShowMessages(false)} />
     </>
   );
 };
