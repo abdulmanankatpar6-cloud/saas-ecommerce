@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Eye, EyeOff, Mail, Lock, User, Chrome, Facebook } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Chrome, Facebook, RefreshCw } from 'lucide-react';
+import { clearLoginHistory } from '../utils/security';
 import toast from 'react-hot-toast';
 import './Login.css';
 
@@ -37,6 +38,17 @@ const Login = () => {
 
     if (name === 'password' && !isLogin) {
       setPasswordStrength(calculatePasswordStrength(value));
+    }
+  };
+
+  const handleMobileSecurityReset = () => {
+    if (formData.email) {
+      clearLoginHistory(formData.email);
+      toast.success('Security flags cleared! Please try logging in again.');
+      setShowError(false);
+      setLoginAttempts(0);
+    } else {
+      toast.error('Please enter your email first');
     }
   };
 
@@ -245,6 +257,18 @@ const Login = () => {
             <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
               {isLoading ? 'Please wait...' : isLogin ? 'Login' : 'Create Account'}
             </button>
+
+            {isLogin && loginAttempts > 2 && (
+              <button
+                type="button"
+                className="btn btn-secondary btn-block mobile-security-reset"
+                onClick={handleMobileSecurityReset}
+                style={{ marginTop: '0.75rem' }}
+              >
+                <RefreshCw size={18} />
+                Clear Security Flags (Mobile Fix)
+              </button>
+            )}
           </form>
 
           <div className="divider">

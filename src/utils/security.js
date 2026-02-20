@@ -177,7 +177,7 @@ class RateLimiter {
   }
 }
 
-export const loginRateLimiter = new RateLimiter(5, 15 * 60 * 1000); // 5 attempts per 15 minutes
+export const loginRateLimiter = new RateLimiter(15, 15 * 60 * 1000); // 15 attempts per 15 minutes (mobile-friendly)
 
 /**
  * XSS Protection - Sanitize user input
@@ -243,6 +243,22 @@ export const secureStorage = {
 };
 
 /**
+ * Clear login history for mobile users (helps with false security flags)
+ */
+export const clearLoginHistory = userEmail => {
+  const loginHistory = secureStorage.getItem('loginHistory') || [];
+  const filteredHistory = loginHistory.filter(login => login.email !== userEmail);
+  secureStorage.setItem('loginHistory', filteredHistory);
+
+  // Also clear rate limiter for this user
+  loginRateLimiter.reset(userEmail);
+
+  // Clear failed attempts
+  secureStorage.removeItem(`failed_attempts_${userEmail}`);
+  secureStorage.removeItem(`account_locked_${userEmail}`);
+};
+
+/**
  * IP-based security check (mock for frontend)
  */
 export const checkSuspiciousActivity = userEmail => {
@@ -251,8 +267,9 @@ export const checkSuspiciousActivity = userEmail => {
     login => login.email === userEmail && Date.now() - login.timestamp < 24 * 60 * 60 * 1000
   );
 
-  // Flag if more than 10 logins in 24 hours
-  if (recentLogins.length > 10) {
+  // More lenient for mobile - flag if more than 50 logins in 24 hours (was 10)
+  // This prevents false positives on mobile devices where users refresh frequently
+  if (recentLogins.length > 50) {
     return {
       suspicious: true,
       reason: 'Unusual number of login attempts detected',
