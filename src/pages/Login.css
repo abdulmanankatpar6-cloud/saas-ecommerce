@@ -741,6 +741,78 @@
   }
 }
 
+/* Loading Button Styles */
+.btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn .spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.btn.loading::after {
+  content: 'Logging in...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: 600;
+  margin-left: 30px;
+}
+
+/* Enhanced Shake Animation */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-8px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+.login-form.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-form.shake {
+    animation: none;
+    border: 2px solid var(--error);
+    transition: border-color 0.3s;
+  }
+}
+
 /* Mobile Security Reset Button */
 .mobile-security-reset {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);

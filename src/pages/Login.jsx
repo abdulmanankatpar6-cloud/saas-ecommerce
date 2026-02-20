@@ -96,6 +96,7 @@ const Login = () => {
           } else {
             // Success - redirect based on user role
             const user = result.user;
+            toast.success(`Welcome back, ${user.name}!`);
 
             // Small delay to ensure state is updated
             setTimeout(() => {
@@ -111,15 +112,19 @@ const Login = () => {
           setShowError(true);
           setLoginAttempts(prev => prev + 1);
 
-          // Shake animation for error feedback
+          // Enhanced error feedback with shake animation
           const form = document.querySelector('.login-form');
-          if (form) {
+          if (form && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             form.classList.add('shake');
             setTimeout(() => form.classList.remove('shake'), 500);
           }
 
-          // Error already shown by AuthContext via toast
-          console.error('Login failed:', result.error);
+          // Show specific error message
+          if (result.error.includes('security')) {
+            toast.error('Security check failed. Try the mobile reset button below.');
+          } else {
+            toast.error(result.error || 'Login failed. Please check your credentials.');
+          }
         }
       } else {
         // Registration flow (can be implemented later with register function)
@@ -254,18 +259,33 @@ const Login = () => {
               </div>
             )}
 
-            <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
-              {isLoading ? 'Please wait...' : isLogin ? 'Login' : 'Create Account'}
+            <button
+              type="submit"
+              className={`btn btn-primary btn-block ${isLoading ? 'loading' : ''}`}
+              disabled={isLoading}
+              aria-label={isLoading ? 'Logging in...' : isLogin ? 'Login' : 'Create Account'}
+            >
+              {isLoading ? (
+                <>
+                  <div className="spinner" aria-hidden="true"></div>
+                  Logging in...
+                </>
+              ) : isLogin ? (
+                'Login'
+              ) : (
+                'Create Account'
+              )}
             </button>
 
-            {isLogin && loginAttempts > 2 && (
+            {isLogin && loginAttempts > 1 && (
               <button
                 type="button"
                 className="btn btn-secondary btn-block mobile-security-reset"
                 onClick={handleMobileSecurityReset}
                 style={{ marginTop: '0.75rem' }}
+                aria-label="Clear security flags for mobile devices"
               >
-                <RefreshCw size={18} />
+                <RefreshCw size={18} aria-hidden="true" />
                 Clear Security Flags (Mobile Fix)
               </button>
             )}

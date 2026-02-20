@@ -582,3 +582,135 @@
     page-break-inside: avoid;
   }
 }
+/* ========================================
+   LOADING SKELETONS - PROFESSIONAL
+   ======================================== */
+
+.skeleton-card {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--gray-100);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-100) 50%, var(--gray-200) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Stats Card Skeleton */
+.skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skeleton-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 0.75rem;
+}
+
+.skeleton-change {
+  width: 60px;
+  height: 24px;
+  border-radius: 0.5rem;
+}
+
+.skeleton-value {
+  width: 80px;
+  height: 32px;
+  border-radius: 0.5rem;
+}
+
+.skeleton-label {
+  width: 120px;
+  height: 16px;
+  border-radius: 0.25rem;
+}
+
+/* Product Card Skeleton */
+.skeleton-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.75rem;
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.skeleton-category {
+  width: 60px;
+  height: 12px;
+  border-radius: 0.25rem;
+}
+
+.skeleton-title {
+  width: 90%;
+  height: 16px;
+  border-radius: 0.25rem;
+}
+
+.skeleton-price {
+  width: 70px;
+  height: 20px;
+  border-radius: 0.25rem;
+}
+
+/* Responsive skeleton adjustments */
+@media (max-width: 480px) {
+  .skeleton-card {
+    padding: 1rem;
+  }
+
+  .skeleton-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .skeleton-value {
+    height: 28px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-card,
+  .skeleton {
+    animation: none;
+  }
+
+  .skeleton {
+    background: var(--gray-200);
+  }
+}

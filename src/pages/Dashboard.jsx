@@ -23,16 +23,32 @@ import './Dashboard.css';
 const Dashboard = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(true);
   const { recommendedProducts, recentlyViewed, personalizedOffers, continueShoppingItems } =
     usePersonalization();
   const chartConfig = useResponsiveChart();
 
   // Load featured products from localStorage
   useEffect(() => {
-    const products = loadProducts();
-    // Show only active products with stock
-    const activeProducts = products.filter(p => p.status === 'active' && p.stock > 0).slice(0, 4); // Show first 4 products
-    setFeaturedProducts(activeProducts);
+    const loadData = async () => {
+      setIsLoading(true);
+      setStatsLoading(true);
+
+      // Simulate API loading time
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      const products = loadProducts();
+      // Show only active products with stock
+      const activeProducts = products.filter(p => p.status === 'active' && p.stock > 0).slice(0, 4);
+      setFeaturedProducts(activeProducts);
+      setIsLoading(false);
+
+      // Stats load slightly later
+      setTimeout(() => setStatsLoading(false), 400);
+    };
+
+    loadData();
   }, []);
 
   const stats = [
@@ -100,9 +116,19 @@ const Dashboard = () => {
 
         {/* Stats Cards */}
         <div className="stats-grid">
-          {stats.map((stat, index) => (
-            <StatsCard key={index} {...stat} />
-          ))}
+          {statsLoading
+            ? // Loading skeleton for stats
+              Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="stats-card skeleton-card">
+                  <div className="skeleton-header">
+                    <div className="skeleton skeleton-icon"></div>
+                    <div className="skeleton skeleton-change"></div>
+                  </div>
+                  <div className="skeleton skeleton-value"></div>
+                  <div className="skeleton skeleton-label"></div>
+                </div>
+              ))
+            : stats.map((stat, index) => <StatsCard key={index} {...stat} />)}
         </div>
 
         {/* Sales Chart */}
@@ -155,13 +181,25 @@ const Dashboard = () => {
             </a>
           </div>
           <div className="products-grid">
-            {featuredProducts.map(product => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onViewDetails={() => setSelectedProduct(product)}
-              />
-            ))}
+            {isLoading
+              ? // Loading skeleton for products
+                Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="product-card skeleton-card">
+                    <div className="skeleton skeleton-image"></div>
+                    <div className="skeleton-content">
+                      <div className="skeleton skeleton-category"></div>
+                      <div className="skeleton skeleton-title"></div>
+                      <div className="skeleton skeleton-price"></div>
+                    </div>
+                  </div>
+                ))
+              : featuredProducts.map(product => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onViewDetails={() => setSelectedProduct(product)}
+                  />
+                ))}
           </div>
         </div>
 
